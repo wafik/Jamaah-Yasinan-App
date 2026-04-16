@@ -1,0 +1,300 @@
+{
+  "status": true,
+  "data": {
+    "number": 18,
+    "name": "Al-Kahf",
+    "name_latin": "Al-Kahf",
+    "number_of_ayahs": 110,
+    "translation": "Goa",
+    "revelation": "Makkiyah",
+    "description": "Surat  ini terdiri atas 110 ayat, termasuk  golongan  surat-surat Makkiyyah. Dinamai Al-Kahfi artinya Gua dan Ashhabul Kahfi yang artinya Penghuni-Penghuni Gua. Kedua nama ini diambil dari cerita yang terdapat dalam surat ini pada ayat 9 sampai dengan 26, tentang beberapa orang pemuda yang tidur dalam gua bertahun-tahun lamanya. Selain cerita tersebut, terdapat pula beberapa buah cerita dalam surat ini, yang kesemuanya mengandung i'tibar dan pelajaran-pelajaran yang amat berguna bagi kehidupan manusia. Banyak hadist-hadist Rasulullah s.a.w. yang menyatakan keutamaan membaca surat ini.",
+    "audio_url": "https://cdn.myquran.com/audio/surah/18.mp3",
+    "ayahs": [
+      {
+        "id": 2241,
+        "surah_number": 18,
+        "ayah_number": 101,
+        "arab": " ۨالَّذِيْنَ كَانَتْ اَعْيُنُهُمْ فِيْ غِطَاۤءٍ عَنْ ذِكْرِيْ وَكَانُوْا لَا يَسْتَطِيْعُوْنَ سَمْعًا ࣖ",
+        "translation": "(yaitu) orang yang mata (hati)nya dalam keadaan tertutup (tidak mampu) dari memperhatikan tanda-tanda (kebesaran)-Ku, dan mereka tidak sanggup mendengar.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018101.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_101.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Mereka yang kafir itu adalah orang-orang yang mata kepala dan hatinya tidak digunakan untuk memperhatikan tanda-tanda kekuasaan Allah, baik yang terdapat di alam semesta maupun yang tertulis dalam Kitab Suci. Mata mereka selalu dalam keadaan tertutup sehingga mereka terdorong untuk berpaling dari memperhatikan tanda-tanda kebesaran-Ku yang tersebar di jagad raya, dan mereka juga tidak sanggup dan enggan mendengar apalagi mematuhi seruan yang mengajak menuju kebenaran.",
+            "long": "Ayat ini menjelaskan bahwa azab yang pedih itu disediakan untuk orang-orang yang mata hatinya selalu tertutup dari memperhatikan tanda-tanda kebesaran Allah yang ada di dunia ini. Mereka tidak pernah memikirkan bukti-bukti kekuasaan-Nya, tidak pernah bertobat kepada Tuhannya, tidak pernah mengikuti perintah-Nya dan menjauhi larangan-Nya, seolah-olah mereka menutup telinga tidak mau mendengar peringatanperingatan dari Allah itu. Azab yang demikian itu ditimpakan kepada mereka sebagai akibat perbuatan mereka berkecimpung (bergelimangan) dalam dosa dan pelanggaran, mengikuti godaan setan masuk dalam perangkap-perangkap yang dipasang oleh setan, sehingga hati mereka dikunci mati oleh Tuhan sehingga tidak dapat lagi mempergunakan mata dan telinganya untuk menerima petunjuk dan kebenaran. Dan Allah menjelaskan bahwa apa-apa yang mereka sembah selain Allah tidak dapat memberi manfaat kepada mereka sedikit pun."
+          },
+          "quraish": "Hal itu disebabkan karena di dunia, mata mereka lalai dan tidak memperhatikan tanda-tanda kekuasaan Allah, seakan-akan ada sesuatu yang menutupinya. Akibat kesesatan itu, mereka tidak dapat mendengarkan ajaran kebenaran seperti layaknya orang yang kehilangan indera pendengar(1). (1) Maksudnya, orang-orang yang matanya tidak dipergunakan untuk memperhatikan tanda-tanda kekuasaan-Ku di langit dan di bumi sehingga mereka mengingat-Ku. Dengan demikian, ayat ini mengajak manusia untuk mempelajari tanda-tanda yang menunjukkan keberadaan Allah yang terdapat di sekelilingnya.",
+          "jalalayn": "(Yaitu orang-orang yang matanya) menjadi Badal atau kata ganti dari lafal Al-Kaafiriina yang pada ayat sebelumnya (dalam keadaan tertutup dari memperhatikan ayat-yat-Ku) yakni Alquran, karenanya mereka buta tidak dapat mengambil petunjuk darinya (dan adalah mereka tidak sanggup mendengar) artinya, mereka tidak mampu untuk mendengarkan dari nabi apa yang telah dibacakan kepada mereka, karena mereka membencinya, oleh sebab itu mereka tidak beriman kepadanya."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 262,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2242,
+        "surah_number": 18,
+        "ayah_number": 102,
+        "arab": "اَفَحَسِبَ الَّذِيْنَ كَفَرُوْٓا اَنْ يَّتَّخِذُوْا عِبَادِيْ مِنْ دُوْنِيْٓ اَوْلِيَاۤءَ ۗاِنَّآ اَعْتَدْنَا جَهَنَّمَ لِلْكٰفِرِيْنَ نُزُلًا ",
+        "translation": "Maka apakah orang kafir menyangka bahwa mereka (dapat) mengambil hamba-hamba-Ku menjadi penolong selain Aku? Sungguh, Kami telah menyediakan (neraka) Jahanam sebagai tempat tinggal bagi orang-orang kafir.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018102.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_102.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Karena sikap yang buruk itu,&nbsp;maka&nbsp;Allah mengkritik keras mereka, yang diungkapkan dalam bentuk pertanyaan.&nbsp;Apakah orang-orang kafir&nbsp;itu&nbsp;menyangka bahwa mereka&nbsp;dapat&nbsp;mengambil&nbsp;dan menjadikan&nbsp;hamba-hamba-Ku&nbsp;yang saleh, seperti Nabi Isa dan Uzair sebagai tuhan yang disembah dan&nbsp;menjadi penolong&nbsp;mereka di akhirat&nbsp;selain Aku? Sungguh, sikap mereka itu merupakan perilaku yang sesat. Sebagai balasannya,&nbsp;Kami telah menyediakan&nbsp;neraka&nbsp;Jahanam sebagai tempat tinggal bagi orang-orang kafir&nbsp;yang terus mengingkari keesaan dan kekuasaan-Ku.&rdquo;",
+            "long": "Apakah orang-orang kafir yang mempersekutukan Aku dengan yang lain menyangka bahwa hamba-hamba-Ku yang ada dalam genggaman kekuasaan-Ku, seperti para malaikat, Isa putra Maryam dan berhala-berhala yang mereka sembah, dapat mereka jadikan penolong untuk menyelamatkan diri dari kemurkaan dan azab-Ku? Sangkaan mereka itu adalah sesat dan salah belaka dan Allah dengan tegas menyatakan lagi, \"Kami telah menyediakan neraka Jahannam bagi orang-orang kafir sebagai tempat tinggal dan sebagai ganti dari apa-apa yang mereka sajikan untuk sembahan-sembahannya."
+          },
+          "quraish": "Apakah penglihatan orang-orang kafir itu buta, sehingga mereka menyangka bahwa usaha mereka menjadikan hamba-hamba-Ku--seperti malaikat dan 'Isâ--sebagai tuhan, lalu menyembahnya selain Aku dapat memberi manfaat dan menjauhkan mereka dari siksa? Sesungguhnya Kami telah menyediakan neraka jahanam sebagai tempat mereka menerima balasan yang setimpal.",
+          "jalalayn": "(Maka apakah orang-orang kafir menyangka bahwa mereka dapat mengambil hamba-hamba-Ku) yakni para Malaikat-Ku, Nabi 'Isa dan Nabi 'Uzair (menjadi penolong-penolong selain Aku?) yakni tuhan-tuhan yang dapat menolong mereka. Lafal Auliyaa-a ini menjadi Maf'ul Tsani daripada lafal Liyattakhidzuu, sedangkan Maf'ul Tsani daripada lafal Hasiba tidak disebutkan. Maksud ayat: Apakah mereka menyangka bahwa pengambilan mereka terhadap hal-hal yang telah disebutkan itu sebagai sesembahan mereka tidak membuat-Ku murka, dan Aku hanya berdiam diri tidak menghukum mereka? Tentu saja tidak. (Sesungguhnya Kami telah menyediakan neraka Jahanam bagi orang-orang kafir) yaitu bagi mereka dan bagi orang-orang kafir lainnya yang seperti mereka (sebagai tempat tinggal) maksudnya Jahanam itu telah disediakan buat mereka sebagaimana disediakannya tempat tinggal bagi tamu."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2243,
+        "surah_number": 18,
+        "ayah_number": 103,
+        "arab": "قُلْ هَلْ نُنَبِّئُكُمْ بِالْاَخْسَرِيْنَ اَعْمَالًا ۗ",
+        "translation": "Katakanlah (Muhammad), “Apakah perlu Kami beritahukan kepadamu tentang orang yang paling rugi perbuatannya?”",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018103.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_103.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Wahai Nabi Muhammad, katakanlah kepada orang-orang kafir itu, &ldquo;Apakah perlu Kami beritahukan kepadamu tentang orang yang paling rugi perbuatannya karena jerih payah mereka hanya akan mendatangkan kesia-siaan dan tanpa ganjaran?&rdquo;",
+            "long": "Ayat ini menjelaskan perintah Allah kepada Nabi Muhammad untuk mengatakan kepada orang-orang yang membantahnya di antara Ahliahli Kitab yaitu Yahudi dan Nasrani, \"Maukah kamu diberi tahu tentang orang-orang yang paling merugi perbuatannya yaitu orang-orang yang telah bersusah payah mengerjakan suatu perbuatan yang dengan perbuatan itu ia mengharap pahala dan karunia, tetapi yang mereka peroleh hanyalah malapetaka dan kebinasaan, seperti orang-orang yang telah membeli barang dengan mengharapkan keuntungan, tetapi yang diperolehnya hanyalah kerugian belaka."
+          },
+          "quraish": "Wahai Rasul, katakanlah kepada orang-orang kafir itu, \"Apakah kalian sudi kalau aku beritahukan tentang orang-orang yang paling merugi dalam amal perbuatan dan tidak mendapatkan balasan pahala sedikitpun?",
+          "jalalayn": "(Katakanlah, \"Apakah akan Kami beritahukan kepada kalian tentang orang-orang yang paling merugi perbuatannya?)\" lafal A'maalan menjadi Tamyiz atau keterangan pembeda yang bentuknya sama dengan Mumayyaz. Kemudian Allah swt. menjelaskan siapa mereka yang merugi itu, melalui firman berikutnya."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2244,
+        "surah_number": 18,
+        "ayah_number": 104,
+        "arab": "اَلَّذِيْنَ ضَلَّ سَعْيُهُمْ فِى الْحَيٰوةِ الدُّنْيَا وَهُمْ يَحْسَبُوْنَ اَنَّهُمْ يُحْسِنُوْنَ صُنْعًا ",
+        "translation": "(Yaitu) orang yang sia-sia perbuatannya dalam kehidupan dunia, sedangkan mereka mengira telah berbuat sebaik-baiknya.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018104.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_104.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Orang-orang yang paling merugi itu adalah&nbsp;orang-orang yang sia-sia perbuatan&nbsp;yang telah dilakukan-nya dalam kehidupan&nbsp;mereka di&nbsp;dunia,&nbsp;sedangkan&nbsp;ketika itu&nbsp;mereka mengira telah berbuat&nbsp;dan beramal dengan&nbsp;sebaik-baiknya.",
+            "long": "Yaitu orang-orang yang sia-sia perbuatannya dalam menghimpun kebaikan di dunia, mereka melakukan perbuatan yang bertentangan dengan perbuatan yang diridai Allah dan mereka menyangka bahwa mereka telah berbuat yang sebaik-baiknya. Kemudian ternyata mereka telah berbuat keliru dan menempuh jalan yang sesat sehingga amal perbuatan yang telah mereka kerjakan itu tidak memberi manfaat sedikit pun bagaikan debu yang terbang habis dihembus angin."
+          },
+          "quraish": "Mereka adalah orang-orang yang rusak amal perbuatannya dalam kehidupan dunia karena keyakinan mereka yang tidak benar, sementara mereka masih menyangka telah berbuat dengan sebaik-baiknya.",
+          "jalalayn": "(Yaitu orang-orang yang telah sia-sia perbuatannya dalam kehidupan dunia ini) amal perbuatan mereka batil tidak diterima (sedangkan mereka menyangka) menduga (bahwa mereka berbuat sebaik-baiknya) yang pasti mereka akan menerima pahala karenanya."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2245,
+        "surah_number": 18,
+        "ayah_number": 105,
+        "arab": "اُولٰۤىِٕكَ الَّذِيْنَ كَفَرُوْا بِاٰيٰتِ رَبِّهِمْ وَلِقَاۤىِٕهٖ فَحَبِطَتْ اَعْمَالُهُمْ فَلَا نُقِيْمُ لَهُمْ يَوْمَ الْقِيٰمَةِ وَزْنًا ",
+        "translation": "Mereka itu adalah orang yang mengingkari ayat-ayat Tuhan mereka dan (tidak percaya) terhadap pertemuan dengan-Nya. Maka sia-sia amal mereka, dan Kami tidak memberikan penimbangan terhadap (amal) mereka pada hari Kiamat.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018105.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_105.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Mereka yang akan sia-sia usahanya dan tidak mendapat ganjaran di akhirat itu adalah orang-orang yang mengingkari ayat-ayat yang menunjukkan kebesaran, kekuasaan, dan keesaan Tuhan mereka, dan mereka juga ingkar terhadap pertemuan dengan-Nya kelak di akhirat untuk mempertanggungjawabkan perbuatan mereka. Karena kekafiran dan keingkaran itu, maka sia-sia-lah semua amal mereka di dunia, dan karenanya Kami tidak memberikan penimbangan terhadap amal mereka kelak pada hari Kiamat. Tidak ada amal perbuatan mereka yang layak dipertimbangkan akibat kekufuran dan keingkaran mereka.",
+            "long": "Mereka yang sia-sia usahanya itu ialah orang-orang yang kufur terhadap ayat-ayat Tuhan dan kufur pula terhadap hari kebangkitan padahal di hari itu mereka akan dihadapkan kepada hari perjumpaan dengan Allah. Oleh karena itu segala amal mereka akan hapus sehingga tidak ada lagi amal kebajikan yang akan ditimbang di atas neraca timbangan mereka. Karena yang akan memberatkan timbangan pada hari Kiamat hanyalah amal saleh yang bersih dari kemusyrikan."
+          },
+          "quraish": "Mereka adalah orang-orang yang mengingkari tanda-tanda kekuasaan Allah dan ingkar terhadap hari kebangkitan dan pembalasan. Maka hilanglah amal perbuatan mereka. Pada hari kiamat nanti, mereka akan mendapatkan kehinaan karena tidak ada sedikit pun amal perbuatan mereka yang dapat diperhitungkan.\"",
+          "jalalayn": "(Mereka itu orang-orang yang kafir terhadap ayat-ayat Rabb mereka) kafir terhadap bukti-bukti yang menunjukkan kepada keesaan-Nya, baik berupa Alquran maupun lain-lainnya (dan kafir terhadap perjumpaan dengan Dia) ingkar pada adanya hari berbangkit, perhitungan amal perbuatan, pahala dan siksaan (maka hapuslah amalan-amalan mereka) yakni ditolak (dan Kami tidak mengadakan suatu penilaian bagi amalan mereka pada hari kiamat) Kami tidak menganggap sama sekali amal perbuatan mereka."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2246,
+        "surah_number": 18,
+        "ayah_number": 106,
+        "arab": "ذٰلِكَ جَزَاۤؤُهُمْ جَهَنَّمُ بِمَا كَفَرُوْا وَاتَّخَذُوْٓا اٰيٰتِيْ وَرُسُلِيْ هُزُوًا ",
+        "translation": "Demikianlah, balasan mereka itu neraka Jahanam, karena kekafiran mereka, dan karena mereka menjadikan ayat-ayat-Ku dan rasul-rasul-Ku sebagai bahan olok-olok.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018106.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_106.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Demikianlah&nbsp;penjelasan dan ancaman yang Kami siapkan bagi mereka.&nbsp;Balasan&nbsp;yang paling tepat bagi&nbsp;mereka itu&nbsp;adalah&nbsp;neraka Jahanam. Hal itu&nbsp;karena kekafiran&nbsp;yang telah&nbsp;mereka&nbsp;lakukan&nbsp;dan karena mereka&nbsp;telah&nbsp;menjadikan ayat-ayat-Ku&nbsp;yang menunjukkan kekuasaan, kebesaran, dan keesaan-Ku yang amat jelas&nbsp;dan rasul-rasul-Ku&nbsp;yang mengajak mereka ke jalan yang benar&nbsp;sebagai bahan olok-olok.",
+            "long": "Balasan yang demikian itu diakibatkan kekafiran mereka kepada utusan-utusan Allah dan mukjizat-mukjizat yang dibawanya yang selalu mereka jadikan sebagai olok-olok. Mereka bukan hanya tidak percaya saja tetapi juga memperolok-olok dan menghinakan utusan-utusan Allah yang berarti pula menghinakan Allah yang mengutusnya."
+          },
+          "quraish": "Demikianlah penjelasan dan perincian Kami tentang keadaan mereka. Neraka jahanam adalah balasan bagi mereka karena mereka telah mengingkari dan mengolok-olok ayat-ayat dan para rasul Allah.",
+          "jalalayn": "(Demikianlah) yakni perihal yang telah Kusebutkan sehubungan dengan dihapusnya amal perbuatan mereka dan lain-lainnya. Lafal Dzaalika menjadi Mubtada sedangkan Khabarnya ialah: (balasan mereka itu neraka Jahanam, disebabkan kekafiran mereka dan disebabkan mereka menjadikan ayat-ayat-Ku dan Rasul-rasul-Ku sebagai olok-olok) keduanya menjadi ejekan dan olokan mereka."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2247,
+        "surah_number": 18,
+        "ayah_number": 107,
+        "arab": "اِنَّ الَّذِيْنَ اٰمَنُوْا وَعَمِلُوا الصّٰلِحٰتِ كَانَتْ لَهُمْ جَنّٰتُ الْفِرْدَوْسِ نُزُلًا ۙ",
+        "translation": "Sungguh, orang yang beriman dan mengerjakan kebajikan, untuk mereka disediakan surga Firdaus sebagai tempat tinggal,",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018107.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_107.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Sesungguhnya orang-orang yang beriman dan membuktikan iman mereka dengan mengerjakan kebajikan yang disertai niat untuk mendapat rida Allah, maka untuk mereka telah disediakan surga Firdaus yang penuh kenikmatan sebagai ganjaran dan tempat tinggal bagi mereka.",
+            "long": "Sesungguhnya orang yang beriman kepada Allah dan rasul-Nya dan membenarkan risalah para rasul dan berbuat amal saleh semata-mata untuk mencapai keridaan-Nya, bagi mereka disediakan surga Firdaus sebagai tempat tinggal. Diriwayatkan oleh al-Bukhari dan Muslim dari Abu Hurairah ra, bersabda Rasulullah saw:\nApabila kamu memohon kepada Allah, maka mohonlah surga Firdaus, karena ia itu surga yang paling mulia dan yang paling tinggi dan di atasnya terdapat Arsy Ar Rahma n, dan dari surga Firdaus itu mengalirlah sungai-sungai surga. (Riwayat al-Bukhari dan Muslim dari Abu Hurairah)"
+          },
+          "quraish": "Sesungguhnya orang-orang yang beriman dan mengerjakan amal saleh, balasan mereka adalah surga Firdaus sebagai tempat tinggal.",
+          "jalalayn": "(Sesungguhnya orang-orang yang beriman dan beramal saleh, bagi mereka) menurut ilmu Allah (adalah surga Firdaus) yaitu bagian tengah dan bagian teratas daripada surga. Idhafah di sini memberikan pengertian Bayan atau menjelaskan (menjadi tempat tinggal) tempat menetap mereka."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2248,
+        "surah_number": 18,
+        "ayah_number": 108,
+        "arab": "خٰلِدِيْنَ فِيْهَا لَا يَبْغُوْنَ عَنْهَا حِوَلًا ",
+        "translation": "mereka kekal di dalamnya, mereka tidak ingin pindah dari sana.",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018108.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_108.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Dengan rahmat Allah yang demikian besar kepada hamba-Nya yang mematuhi ajaran-Nya,&nbsp;mereka&nbsp;akan&nbsp;kekal di dalamnya.&nbsp;Karena nikmat yang demikian banyak dan kepuasan di dalam surga itu&nbsp;mereka tidak ingin pindah dari sana&nbsp;untuk mendapatkan kenikmatan yang lain.",
+            "long": "Mereka kekal di dalam surga dan tidak ingin pindah ke tempat lain, karena tidak ada tempat yang lebih mulia dan lebih agung pada sisi mereka kecuali surga Firdaus."
+          },
+          "quraish": "Mereka mendapatkan nikmat yang kekal. Mereka pun tidak ingin mencari kenikmatan selainnya.",
+          "jalalayn": "(Mereka kekal di dalamnya, mereka tidak ingin) tidak meminta (berpindah daripadanya) pindah ke tempat yang lain."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2249,
+        "surah_number": 18,
+        "ayah_number": 109,
+        "arab": "قُلْ لَّوْ كَانَ الْبَحْرُ مِدَادًا لِّكَلِمٰتِ رَبِّيْ لَنَفِدَ الْبَحْرُ قَبْلَ اَنْ تَنْفَدَ كَلِمٰتُ رَبِّيْ وَلَوْ جِئْنَا بِمِثْلِهٖ مَدَدًا ",
+        "translation": "Katakanlah (Muhammad), “Seandainya lautan menjadi tinta untuk (menulis) kalimat-kalimat Tuhanku, maka pasti habislah lautan itu sebelum selesai (penulisan) kalimat-kalimat Tuhanku, meskipun Kami datangkan tambahan sebanyak itu (pula).”",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018109.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_109.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Pada bagian sebelumnya banyak informasi yang Allah sampaikan, seperti kisah Ashabul Kahfi, Khidir, dan Zulkarnain. Kemudian, pada bagian akhir surah ini Allah menjelaskan betapa ilmu-Nya sangat luas. Wahai Nabi Muhammad, katakanlah kepada orang-orang kafir itu, &ldquo;Seandainya semua lautan di dunia ini menjadi tinta untuk menulis kalimat- kalimat Tuhanku yang mencakup semua pengetahuan, maka pasti akan habislah seluruh air lautan itu sebelum selesai penulisan kalimat-kalimat Tuhanku. Demikian juga keadaannya meskipun Kami datangkan tambahan lautan sebanyak itu pula untuk menuliskannya, kalimat-kalimat itu tidak akan habis.",
+            "long": "Diriwayatkan bahwa orang-orang Yahudi berkata kepada Nabi Muhammad, \"Engkau mengatakan bahwa kami telah diberi oleh Allah hikmah, sedang dalam kitab engkau (Al-Qur'an) terdapat ayat:\nDan barangsiapa dianugerahkan al-hikmah itu, ia benar-benar telah dianugerahi karunia yang banyak. (al-Baqarah/2: 269)\nKemudian engkau mengatakan pula sebagaimana tersebut dalam Al-Qur'an:\nDan tidaklah kamu diberi pengetahuan melainkan sedikit. (al-Isra/17: 85)\nMereka berpendapat, ada pertentangan antara kedua ayat ini, maka turunlah ayat ini sebagai jawaban atas kritikan mereka. Rasul diperintahkan untuk mengatakan kepada mereka, \"Katakanlah kalau sekiranya lautan menjadi tinta untuk menuliskan (dengan pena) kalimat-kalimat Tuhanku dan ilmu-ilmu-Nya, maka akan habislah lautan itu sebelum habis (ditulis) kalimat-kalimat Tuhanku meskipun air laut itu ditambahkan sebanyak itu pula, karena lautan itu terbatas sedangkan ilmu dan hikmah Allah tidak terbatas.\"\nSeperti firman Allah:\n\"Dan seandainya pohon-pohon di bumi menjadi pena dan lautan (menjadi tinta), ditambahkan kepadanya tujuh lautan (lagi) setelah (kering)nya, niscaya tidak akan habis-habisnya (dituliskan) kalimat-kalimat Allah. Sesungguhnya Allah Mahaperkasa, Mahabijaksana.\" (Luqman/31: 27)"
+          },
+          "quraish": "Katakanlah, wahai Rasul, kepada manusia, \"Sesungguhnya ilmu Allah itu meliputi segala sesuatu. Sekiranya air laut dijadikan tinta untuk menulis kalimat Allah yang menunjukkan ilmu dan hikmah-Nya, maka tinta itu akan habis sebelum habis kalimat Allah, meskipun ditambahkan lagi sebanyak itu.\"",
+          "jalalayn": "(Katakanlah, \"Kalau sekiranya lautan) airnya (menjadi tinta) yaitu sarana untuk menulis (untuk menulis kalimat-kalimat Rabbku) yang menunjukkan kepada kebijaksanaan-kebijaksanaan dan keajaiban-keajaiban ciptaan-Nya, seumpamanya hal itu ditulis (sungguh habislah lautan itu) untuk menulisnya (sebelum habis) dapat dibaca Tanfadza atau Yanfadza, yakni sebelum habis ditulis (kalimat-kalimat Rabbku, meskipun Kami datangkan sebanyak itu) lautan yang sama (sebagai tambahan tintanya.\") niscaya tambahan ini pun akan habis pula, sedangkan kalimat-kalimat Rabbku masih belum habis ditulis. Lafal Madadan dinashabkan karena menjadi Tamyiz."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      },
+      {
+        "id": 2250,
+        "surah_number": 18,
+        "ayah_number": 110,
+        "arab": "قُلْ اِنَّمَآ اَنَا۠ بَشَرٌ مِّثْلُكُمْ يُوْحٰٓى اِلَيَّ اَنَّمَآ اِلٰهُكُمْ اِلٰهٌ وَّاحِدٌۚ فَمَنْ كَانَ يَرْجُوْا لِقَاۤءَ رَبِّهٖ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَّلَا يُشْرِكْ بِعِبَادَةِ رَبِّهٖٓ اَحَدًا ࣖ",
+        "translation": "Katakanlah (Muhammad), “Sesungguhnya aku ini hanya seorang manusia seperti kamu, yang telah menerima wahyu, bahwa sesungguhnya Tuhan kamu adalah Tuhan Yang Maha Esa.” Maka barangsiapa mengharap pertemuan dengan Tuhannya maka hendaklah dia mengerjakan kebajikan dan janganlah dia mempersekutukan dengan sesuatu pun dalam beribadah kepada Tuhannya.”",
+        "audio_url": "https://cdn.myquran.com/audio/ayah/018110.mp3",
+        "image_url": "https://cdn.myquran.com/img/ayah/18_110.png",
+        "tafsir": {
+          "kemenag": {
+            "short": "Allah memerintah Nabi untuk menjelaskan jati dirinya.&nbsp;Katakanlah, &ldquo;Sesungguhnya aku ini hanya seorang manusia seperti kamu, yang telah diwahyukan kepadaku&nbsp;sesuai kehendak Allah&nbsp;bahwa sesungguhnya Tuhan kamu&nbsp;yang menjadi tujuan ibadah&nbsp;adalah Tuhan Yang Maha Esa, baik dalam zat, sifat, maupun perbuatan-Nya.&nbsp;Maka, barang siapa mengharap pertemuan dengan Tuhannya&nbsp;dan menghendaki ganjaran atas amal perbuatannya di akhirat kelak,&nbsp;maka hendaklah dia&nbsp;selalu&nbsp;mengerjakan kebajikan dan&nbsp;menjauhi semua hal keji dan mungkar serta&nbsp;janganlah dia mempersekutukan dengan sesuatu pun dalam beribadah kepada Tuhannya.&nbsp;Hendaklah dia beribadah kepada-Nya dengan tulus, bukan karena ria, dan dilandasi niat untuk menggapai rida-Nya.&rdquo;",
+            "long": "Katakanlah kepada mereka, \"Sesungguhnya aku ini hanya seorang manusia seperti kamu, mengakui bahwa semua ilmuku tidak sebanding dengan ilmu Allah, aku mengetahui sekedar apa yang diwahyukan Allah kepadaku, dan tidak tahu yang lainnya kecuali apa yang Allah ajarkan kepadaku. Allah telah mewahyukan kepadaku bahwa, \"Yang disembah olehku dan oleh kamu hanyalah Tuhan Yang Maha Esa, yang tidak ada sekutu bagi-Nya.\" Oleh karena itu barangsiapa yang mengharapkan pahala dari Allah pada hari perjumpaan dengan-Nya, maka hendaklah ia tulus ikhlas dalam ibadahnya, mengesakan Allah dalam rububiyah dan uluhiyah-Nya dan tidak syirik baik yang terang-terangan maupun yang tersembunyi seperti riya, karena berbuat sesuatu dengan motif ingin dipuji orang itu termasuk syirik yang tersembunyi. Setelah membersihkan iman dari kemusyrikan itu hendaklah selalu mengerjakan amal saleh yang dikerjakannya semata-mata untuk mencapai keridaan-Nya.\nDiriwayatkan oleh Muslim dari Abu Hurairah ra, bahwa Rasulullah saw. bersabda:\nSesungguhnya Allah berfirman, \"Saya adalah yang paling kaya di antara semua yang berserikat dari sekutunya. Dan siapa yang membuat suatu amalan dengan mempersekutukan Aku dengan yang lain, maka Aku tinggalkan dia bersama sekutunya.\" (Riwayat Muslim dari Abu Hurairah)"
+          },
+          "quraish": "Katakan pula kepada manusia, \"Sesungguhnya aku hanyalah manusia biasa seperti kalian, yang diutus oleh Allah untuk mengajarkan apa yang telah diajarkan Allah kepadaku. Allah mewahyukan kepadaku bahwa sesungguhnya Tuhan kalian adalah Tuhan Yang Esa dan tiada sekutu bagi-Nya. Maka barangsiapa mengharap berjumpa dengan Allah dan mendapatkan pahala-Nya, hendaknya ia mengerjakan perbuatan yang baik dengan ikhlas dan menjauhi kemusyrikan dalam beribadah.\"",
+          "jalalayn": "(Katakanlah, \"Sesungguhnya aku ini hanyalah seorang manusia) anak Adam (seperti kalian, yang diwahyukan kepadaku, 'Bahwa sesungguhnya Rabb kalian itu adalah Tuhan Yang Esa.') huruf Anna di sini Maktufah atau dicegah untuk beramal oleh sebab adanya Ma, sedangkan huruf Ma masih tetap status Mashdarnya. Maksudnya; yang diwahyukan kepadaku mengenai keesaan Tuhan (Barang siapa mengharap) bercita-cita (perjumpaan dengan Rabbnya) setelah dibangkitkan dan menerima pembalasan (maka hendaklah ia mengerjakan amal yang saleh dan janganlah ia mempersekutukan di dalam beribadah kepada Rabbnya) yakni sewaktu ia beribadah kepada-Nya, seumpamanya ia hanya ingin pamer (dengan seorang pun\")."
+        },
+        "meta": {
+          "juz": 16,
+          "page": 304,
+          "manzil": 4,
+          "ruku": 263,
+          "hizb_quarter": 122,
+          "sajda": {
+            "recommended": false,
+            "obligatory": false
+          }
+        }
+      }
+    ]
+  },
+  "pagination": {
+    "page": 2,
+    "limit": 100,
+    "total": 110
+  }
+}

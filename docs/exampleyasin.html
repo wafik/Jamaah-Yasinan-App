@@ -1,0 +1,947 @@
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --v-primary: #4A7C59;
+    --v-primary-light: #6B9B7A;
+    --v-primary-bg: #E8F0EA;
+    --v-secondary: #8B7355;
+    --v-secondary-bg: #F5F0E8;
+    --v-bg: #FEFCFA;
+    --v-surface: #FFFFFF;
+    --v-card: #F8F6F2;
+    --v-text: #2D2A26;
+    --v-text-secondary: #6B6560;
+    --v-text-muted: #9C9690;
+    --v-border: #E5E2DC;
+    --v-border-light: #F0EDE8;
+    --v-success: #4A7C59;
+    --v-success-light: #E8F0EA;
+    --v-warning: #D4A84B;
+    --v-warning-light: #FBF3E0;
+    --v-danger: #C45C5C;
+    --v-danger-light: #F5E0E0;
+    --v-radius-sm: 10px;
+    --v-radius: 14px;
+    --v-radius-lg: 20px;
+    --v-radius-xl: 28px;
+    --v-font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+  body { font-family: var(--v-font); background: #E8E4DF; color: var(--v-text); -webkit-font-smoothing: antialiased; }
+  .screen-wrapper { display: flex; gap: 24px; padding: 24px; overflow-x: auto; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+  .phone-frame {
+    width: 320px; min-width: 320px; background: #1a1a1a; border-radius: 44px;
+    padding: 12px; box-shadow: 0 25px 60px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.1); position: relative; flex-shrink: 0;
+  }
+  .phone-screen {
+    background: var(--v-bg); border-radius: 36px; overflow: hidden;
+    height: 620px; position: relative; display: flex; flex-direction: column;
+  }
+  .notch { width: 100px; height: 28px; background: #1a1a1a; border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 10; }
+  .screen-content { flex: 1; overflow: hidden; position: relative; display: flex; flex-direction: column; background: var(--v-bg); }
+  .screen-label { text-align: center; font-size: 11px; color: #999; margin-top: 10px; font-family: var(--v-font); letter-spacing: 0.5px; }
+
+  /* Dashboard styles */
+  .dash-header {
+    background: linear-gradient(165deg, var(--v-primary) 0%, #5A8B68 50%, var(--v-primary-light) 100%);
+    padding: 20px 20px 32px; border-radius: 0 0 32px 32px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .dash-time { font-size: 48px; font-weight: 700; color: #FFFFFF; letter-spacing: -2px; line-height: 1; }
+  .dash-dates { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .dash-date { font-size: 12px; color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+  .dash-loc { font-size: 11px; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 4px; margin-top: 4px; font-weight: 500; }
+  .loc-dot { width: 6px; height: 6px; background: rgba(255,255,255,0.8); border-radius: 50%; }
+  .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 16px; }
+  .quick-card {
+    background: var(--v-surface); border-radius: var(--v-radius-lg); padding: 14px 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    border: 1px solid var(--v-border-light); cursor: pointer;
+    transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .quick-card:active { transform: scale(0.97); }
+  .quick-card.active { background: var(--v-primary-bg); border-color: var(--v-primary); }
+  .qc-icon { width: 40px; height: 40px; border-radius: var(--v-radius); background: var(--v-card); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .quick-card.active .qc-icon { background: var(--v-primary); }
+  .qc-icon svg { width: 20px; height: 20px; stroke: var(--v-primary); }
+  .quick-card.active .qc-icon svg { stroke: white; }
+  .qc-label { font-size: 10px; color: var(--v-text-secondary); font-weight: 600; text-align: center; line-height: 1.3; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--v-text); padding: 0 16px 10px; letter-spacing: -0.2px; }
+  .agenda-card {
+    background: var(--v-surface); border-radius: var(--v-radius); margin: 0 16px;
+    padding: 14px 16px; border-left: 4px solid var(--v-primary);
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .ag-title { font-size: 13px; font-weight: 700; color: var(--v-text); letter-spacing: -0.1px; }
+  .ag-sub { font-size: 11px; color: var(--v-text-muted); margin-top: 2px; }
+  .ag-badge { background: var(--v-primary); color: white; font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+
+  /* Yasin Reader styles */
+  .reader-header { background: var(--v-surface); padding: 14px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--v-border-light); }
+  .back-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--v-card); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
+  .back-btn:active { background: var(--v-border); }
+  .rh-title { font-size: 15px; font-weight: 700; color: var(--v-text); flex: 1; letter-spacing: -0.2px; }
+  .reader-body { flex: 1; padding: 16px; overflow: hidden; }
+  .ayat-num { width: 28px; height: 28px; background: var(--v-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; margin-bottom: 10px; }
+  .arab-text { font-size: 20px; color: var(--v-text); line-height: 2; text-align: right; direction: rtl; font-family: 'Amiri', Georgia, serif; letter-spacing: 1px; }
+  .trans-text { font-size: 12px; color: var(--v-text-secondary); line-height: 1.7; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--v-border-light); }
+  .ayat-sep { height: 1px; background: var(--v-border); margin: 14px 0; }
+  .reader-controls { background: var(--v-surface); padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--v-border-light); }
+  .ctrl-btn { background: var(--v-card); border: 1px solid var(--v-border-light); border-radius: 20px; padding: 8px 14px; font-size: 11px; font-weight: 600; color: var(--v-text); display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; }
+  .ctrl-btn.active { background: var(--v-primary); border-color: var(--v-primary); color: white; }
+  .font-ctrl { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--v-text-muted); font-weight: 500; }
+
+  /* Asmaul Husna */
+  .asma-header { background: var(--v-surface); padding: 16px; border-bottom: 1px solid var(--v-border-light); }
+  .asma-title { font-size: 18px; font-weight: 700; color: var(--v-text); letter-spacing: -0.3px; }
+  .asma-sub { font-size: 12px; color: var(--v-text-muted); margin-top: 4px; font-weight: 500; }
+  .asma-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 12px; overflow-y: auto; max-height: 480px; }
+  .asma-card {
+    background: var(--v-surface); border-radius: var(--v-radius); padding: 14px 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    border: 1px solid var(--v-border-light); cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .asma-card:active { transform: scale(0.96); background: var(--v-card); }
+  .asma-num { font-size: 9px; color: var(--v-primary); font-weight: 700; }
+  .asma-arab { font-size: 22px; color: var(--v-text); font-family: 'Amiri', Georgia, serif; }
+  .asma-latin { font-size: 11px; color: var(--v-text-secondary); text-align: center; margin-top: 4px; font-weight: 500; }
+  .asma-modal-overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+    display: none; align-items: flex-end; border-radius: 36px; z-index: 20;
+    backdrop-filter: blur(4px);
+  }
+  .asma-modal-overlay.show { display: flex; }
+  .asma-modal {
+    background: var(--v-surface); border-radius: 28px 28px 0 0; padding: 24px;
+    width: 100%; min-height: 220px;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal-handle { width: 40px; height: 4px; background: var(--v-border); border-radius: 2px; margin: 0 auto 16px; }
+  .modal-arab { font-size: 36px; color: var(--v-text); font-family: 'Amiri', Georgia, serif; text-align: center; }
+  .modal-latin { font-size: 16px; font-weight: 700; color: var(--v-text); text-align: center; margin-top: 6px; letter-spacing: -0.2px; }
+  .modal-meaning { font-size: 13px; color: var(--v-primary); text-align: center; margin-top: 6px; font-weight: 600; }
+  .modal-desc { font-size: 12px; color: var(--v-text-secondary); line-height: 1.7; margin-top: 14px; padding: 14px; background: var(--v-primary-bg); border-radius: 14px; }
+
+  /* Arisan */
+  .arisan-header { background: var(--v-surface); padding: 16px; border-bottom: 1px solid var(--v-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .arisan-title { font-size: 18px; font-weight: 700; color: var(--v-text); letter-spacing: -0.3px; }
+  .add-btn { width: 32px; height: 32px; background: var(--v-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; font-weight: 600; transition: all 0.2s ease; }
+  .add-btn:active { transform: scale(0.9); }
+  .arisan-body { flex: 1; padding: 12px 14px; overflow: hidden; }
+  .arisan-group { background: var(--v-surface); border-radius: var(--v-radius-lg); padding: 14px; margin-bottom: 12px; border: 1px solid var(--v-border-light); box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+  .ag-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .ag-name { font-size: 14px; font-weight: 700; color: var(--v-text); letter-spacing: -0.2px; }
+  .ag-round { font-size: 11px; color: var(--v-text-muted); margin-top: 3px; font-weight: 500; }
+  .ag-amount { font-size: 14px; font-weight: 700; color: var(--v-primary); }
+  .ag-members { display: flex; margin-bottom: 10px; }
+  .member-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--v-primary-bg); border: 2px solid var(--v-surface); margin-right: -8px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--v-primary); }
+  .member-more { width: 26px; height: 26px; border-radius: 50%; background: var(--v-card); border: 2px solid var(--v-surface); display: flex; align-items: center; justify-content: center; font-size: 8px; color: var(--v-text-muted); margin-right: -8px; font-weight: 600; }
+  .kocok-btn { width: 100%; padding: 10px; background: var(--v-primary); border-radius: var(--v-radius); font-size: 12px; font-weight: 600; color: white; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.2s ease; }
+  .kocok-btn:active { transform: scale(0.98); opacity: 0.9; }
+  .kocok-icon { width: 16px; height: 16px; border: 2px solid white; border-radius: 4px; }
+  .winner-overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center; border-radius: 36px; z-index: 20;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .winner-card {
+    background: var(--v-surface); border-radius: var(--v-radius-xl); padding: 28px 24px;
+    width: 260px; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .winner-icon { width: 64px; height: 64px; background: var(--v-primary); border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .winner-label { font-size: 12px; color: var(--v-text-muted); font-weight: 600; }
+  .winner-name { font-size: 22px; font-weight: 700; color: var(--v-text); margin: 6px 0; letter-spacing: -0.3px; }
+  .winner-close { margin-top: 18px; padding: 10px 32px; background: var(--v-primary); border-radius: var(--v-radius); font-size: 12px; font-weight: 600; color: white; display: inline-block; cursor: pointer; }
+  .progress-bar { height: 6px; background: var(--v-border); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+  .progress-fill { height: 100%; background: var(--v-primary); border-radius: 3px; }
+
+  /* Bottom Nav */
+  .bottom-nav {
+    position: absolute; bottom: 14px; left: 14px; right: 14px;
+    background: var(--v-surface); border-radius: var(--v-radius-xl); padding: 12px 10px;
+    display: flex; justify-content: space-around;
+    border: 1px solid var(--v-border-light);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; cursor: pointer; position: relative; padding: 4px 0; transition: all 0.2s ease; }
+  .nav-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .nav-icon svg { width: 20px; height: 20px; stroke: var(--v-text-muted); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-item.active .nav-icon svg { stroke: var(--v-primary); }
+  .nav-label { font-size: 9px; color: var(--v-text-muted); font-family: var(--v-font); font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--v-primary); }
+  .nav-dot { width: 4px; height: 4px; background: var(--v-primary); border-radius: 50%; position: absolute; bottom: 0; }
+  .jamaah-body { flex: 1; padding: 12px 14px; overflow: hidden; }
+  .search-bar { background: var(--v-surface); border: 1px solid var(--v-border-light); border-radius: var(--v-radius); padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .search-bar svg { width: 16px; height: 16px; stroke: var(--v-text-muted); fill: none; stroke-width: 2; flex-shrink: 0; }
+  .search-placeholder { font-size: 12px; color: var(--v-text-muted); }
+  .jamaah-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--v-border-light); }
+  .j-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--v-primary-bg); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--v-primary); flex-shrink: 0; }
+  .j-info { flex: 1; }
+  .j-name { font-size: 13px; font-weight: 700; color: var(--v-text); letter-spacing: -0.1px; }
+  .j-detail { font-size: 11px; color: var(--v-text-muted); margin-top: 2px; font-weight: 500; }
+  .j-actions { display: flex; gap: 8px; }
+  .j-wa { width: 32px; height: 32px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .j-wa svg { width: 16px; height: 16px; fill: white; }
+  .attendance-badge { font-size: 9px; padding: 4px 8px; border-radius: 10px; font-weight: 600; }
+  .att-hadir { background: var(--v-primary-bg); color: var(--v-primary); }
+  .att-absent { background: var(--v-warning-light); color: #92400E; }
+
+  /* Surat Pilihan */
+  .surat-header { background: var(--v-surface); padding: 16px; border-bottom: 1px solid var(--v-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .surat-title { font-size: 18px; font-weight: 700; color: var(--v-text); letter-spacing: -0.3px; }
+  .surat-list { flex: 1; padding: 12px 14px; overflow-y: auto; }
+  .surat-item { background: var(--v-surface); border-radius: var(--v-radius-lg); padding: 14px; margin-bottom: 10px; border: 1px solid var(--v-border-light); display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+  .surat-item:active { transform: scale(0.98); }
+  .surat-item.active { background: var(--v-primary-bg); border-color: var(--v-primary); }
+  .surat-icon { width: 44px; height: 44px; border-radius: var(--v-radius); background: var(--v-primary-bg); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .surat-info { flex: 1; }
+  .surat-name { font-size: 14px; font-weight: 700; color: var(--v-text); letter-spacing: -0.1px; }
+  .surat-desc { font-size: 11px; color: var(--v-text-muted); margin-top: 3px; font-weight: 500; }
+  .surat-badge { font-size: 10px; padding: 5px 10px; border-radius: 20px; background: var(--v-primary); color: white; font-weight: 600; }
+
+  /* Manage Almarhum */
+  .almarhum-header { background: var(--v-surface); padding: 14px 16px; border-bottom: 1px solid var(--v-border-light); display: flex; align-items: center; gap: 12px; }
+  .almarhum-back { width: 32px; height: 32px; border-radius: 50%; background: var(--v-card); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
+  .almarhum-title { font-size: 16px; font-weight: 700; color: var(--v-text); letter-spacing: -0.2px; flex: 1; text-align: center; }
+  .add-btn { width: 32px; height: 32px; background: var(--v-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; font-weight: 600; transition: all 0.2s ease; }
+  .add-btn:active { transform: scale(0.9); }
+  .almarhum-body { flex: 1; padding: 12px 14px; overflow-y: auto; }
+  .almarhum-detail { background: var(--v-surface); border-radius: var(--v-radius-lg); padding: 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--v-border-light); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .almarhum-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--v-secondary-bg); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .almarhum-info { flex: 1; }
+  .almarhum-name { font-size: 15px; font-weight: 700; color: var(--v-text); letter-spacing: -0.2px; }
+  .almarhum-born { font-size: 11px; color: var(--v-text-secondary); margin-top: 4px; font-weight: 500; }
+  .almarhum-wafat { font-size: 11px; color: var(--v-text-secondary); margin-top: 2px; font-weight: 500; }
+  .almarhum-age { font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--v-danger-light); color: var(--v-danger); font-weight: 600; margin-top: 6px; display: inline-block; }
+  .almarhum-section { font-size: 12px; font-weight: 700; color: var(--v-text); margin-bottom: 10px; margin-top: 6px; letter-spacing: -0.1px; }
+  .almarhum-list { background: var(--v-surface); border-radius: var(--v-radius); padding: 10px 12px; margin-bottom: 10px; border: 1px solid var(--v-border-light); box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+  .almarhum-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--v-border-light); }
+  .almarhum-item:last-child { border-bottom: none; }
+  .alm-icon { width: 32px; height: 32px; border-radius: 50%; background: #374151; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; font-weight: 700; }
+  .alm-info { flex: 1; }
+  .alm-name { font-size: 13px; font-weight: 600; color: var(--v-text); letter-spacing: -0.1px; }
+  .alm-rel { font-size: 10px; color: var(--v-text-muted); font-weight: 500; }
+  .alm-date { font-size: 10px; color: var(--v-text-muted); font-weight: 500; }
+
+  /* Kalender */
+  .kalender-header { background: var(--v-surface); padding: 16px; border-bottom: 1px solid var(--v-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .kalender-back { width: 32px; height: 32px; border-radius: 50%; background: var(--v-card); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
+  .kalender-title { font-size: 16px; font-weight: 700; color: var(--v-text); letter-spacing: -0.2px; flex: 1; text-align: center; }
+  .kalender-nav { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--v-text); }
+  .kalender-month-nav { font-size: 13px; font-weight: 700; color: var(--v-text); letter-spacing: -0.1px; }
+  .kalender-body { flex: 1; padding: 12px 14px; overflow-y: auto; }
+  .kalender-day-names { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+  .kalender-day-name { font-size: 10px; font-weight: 700; color: var(--v-text-muted); text-align: center; padding: 6px 0; }
+  .kalender-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .kalender-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--v-text); border-radius: var(--v-radius-sm); cursor: pointer; transition: all 0.2s ease; }
+  .kalender-day:hover { background: var(--v-card); }
+  .kalender-day.other-month { color: var(--v-text-muted); opacity: 0.4; }
+  .kalender-day.today { background: var(--v-primary); color: white; }
+  .kalender-day.has-event { position: relative; }
+  .kalender-day.has-event::after { content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px; background: var(--v-danger); border-radius: 50%; }
+  .kalender-day.today.has-event::after { background: white; }
+  .kalender-events { margin-top: 14px; }
+  .kalender-section-title { font-size: 12px; font-weight: 700; color: var(--v-text); margin-bottom: 8px; letter-spacing: -0.1px; }
+  .kalender-event { background: var(--v-surface); border-radius: var(--v-radius); padding: 10px 12px; margin-bottom: 8px; border: 1px solid var(--v-border-light); display: flex; align-items: center; gap: 10px; }
+  .ke-icon { width: 32px; height: 32px; border-radius: var(--v-radius-sm); background: var(--v-primary-bg); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .ke-info { flex: 1; }
+  .ke-name { font-size: 12px; font-weight: 700; color: var(--v-text); }
+  .ke-time { font-size: 10px; color: var(--v-text-muted); margin-top: 2px; font-weight: 500; }
+  .ke-badge { font-size: 9px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+  .ke-badge-jumat { background: #E8F0EA; color: #4A7C59; }
+  .ke-badge-minggu { background: #FEF3C7; color: #92400E; }
+
+  /* Export Button */
+  .export-btn { width: 32px; height: 32px; border-radius: 50%; background: var(--v-primary); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .export-btn:active { transform: scale(0.9); }
+
+  /* Kitab Pilihan */
+  .kitab-header { background: var(--v-surface); padding: 16px; border-bottom: 1px solid var(--v-border-light); display: flex; justify-content: space-between; align-items: center; }
+  .kitab-title { font-size: 18px; font-weight: 700; color: var(--v-text); letter-spacing: -0.3px; }
+  .kitab-list { flex: 1; padding: 12px 14px; overflow-y: auto; }
+  .kitab-item { background: var(--v-surface); border-radius: var(--v-radius-lg); padding: 14px; margin-bottom: 10px; border: 1px solid var(--v-border-light); display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+  .kitab-item:active { transform: scale(0.98); }
+  .kitab-item.active { background: var(--v-primary-bg); border-color: var(--v-primary); }
+  .kitab-icon { width: 44px; height: 44px; border-radius: var(--v-radius); background: var(--v-primary-bg); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .kitab-info { flex: 1; }
+  .kitab-name { font-size: 14px; font-weight: 700; color: var(--v-text); letter-spacing: -0.1px; }
+  .kitab-desc { font-size: 11px; color: var(--v-text-muted); margin-top: 3px; font-weight: 500; }
+  .kitab-badge { font-size: 10px; padding: 5px 10px; border-radius: 20px; background: var(--v-primary); color: white; font-weight: 600; }
+</style>
+
+<h2 class="sr-only">Mockup desain sistem Ventri — aplikasi Yasin & Tahlil dengan fitur Arisan dan Jamaah</h2>
+
+<div class="screen-wrapper">
+
+  <!-- SCREEN 1: Dashboard -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="dash-header">
+            <div class="dash-time">04:32</div>
+            <div class="dash-dates">
+              <div class="dash-date">Kamis, 17 April 2026</div>
+              <div class="dash-date">18 Syawal 1447 H</div>
+            </div>
+            <div class="dash-loc"><div class="loc-dot"></div>Purbalingga, Jawa Tengah</div>
+          </div>
+          <div style="padding:14px 16px 4px">
+            <div class="section-title" style="padding:0 0 8px">Akses Cepat</div>
+            <div class="quick-grid">
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+                <div class="qc-label">Surat Yasin</div>
+              </div>
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+                <div class="qc-label">Tahlil</div>
+              </div>
+              <div class="quick-card" style="background:var(--v-green-bg);border-color:var(--v-green)">
+                <div class="qc-icon" style="background:white"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                <div class="qc-label">Asmaul Husna</div>
+              </div>
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+                <div class="qc-label">Surat Pilihan</div>
+              </div>
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="qc-label">Kalender</div>
+              </div>
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+                <div class="qc-label">Kitab Pilihan</div>
+              </div>
+              <div class="quick-card">
+                <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#5fba6f" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9"/></svg></div>
+                <div class="qc-label">Doa Harian</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:8px 0 4px">
+            <div class="section-title">Agenda Terdekat</div>
+            <div class="agenda-card">
+              <div>
+                <div class="ag-title">Pengajian RT 05</div>
+                <div class="ag-sub">Sabtu, 19 Apr • Ba'da Isya</div>
+              </div>
+              <div class="ag-badge">2 hari lagi</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item active">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <div class="nav-label">Home</div>
+            <div class="nav-dot"></div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+            <div class="nav-label">Ibadah</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div class="nav-label">Arisan</div>
+          </div>
+          <div class="nav-item">
+            <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="nav-label">Jamaah</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Dashboard</div>
+  </div>
+
+  <!-- SCREEN 2: Yasin Reader -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="reader-header">
+            <div class="back-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></div>
+            <div class="rh-title">Surat Yasin</div>
+            
+          </div>
+          <div class="reader-body">
+            <div class="ayat-num">1</div>
+            <div class="arab-text">يٰسۤ</div>
+            <div class="trans-text">Yasin.</div>
+            <div class="ayat-sep"></div>
+            <div class="ayat-num">2</div>
+            <div class="arab-text">وَالۡقُرۡاٰنِ الۡحَكِيۡمِۙ</div>
+            <div class="trans-text">Demi Al-Qur'an yang penuh hikmah.</div>
+            <div class="ayat-sep"></div>
+            <div class="ayat-num">3</div>
+            <div class="arab-text">اِنَّكَ لَمِنَ الۡمُرۡسَلِيۡنَۙ</div>
+            <div class="trans-text">Sungguh, engkau (Muhammad) adalah salah seorang dari rasul-rasul,</div>
+          </div>
+          <div class="reader-controls">
+            <div class="ctrl-btn active"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>Auto Scroll</div>
+            <div class="font-ctrl">
+              <span style="font-size:10px">A</span>
+              <div style="width:48px;height:3px;background:var(--v-border);border-radius:2px;position:relative"><div style="position:absolute;left:0;top:0;width:60%;height:100%;background:var(--v-green);border-radius:2px"></div></div>
+              <span style="font-size:14px">A</span>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Pembaca Yasin</div>
+  </div>
+
+  <!-- SCREEN 3: Asmaul Husna -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen" style="position:relative;">
+        <div class="screen-content">
+          <div class="asma-header">
+            <div class="asma-title">Asmaul Husna</div>
+            <div class="asma-sub">99 Nama Indah Allah SWT</div>
+          </div>
+          <div class="asma-grid">
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')" style="background:var(--v-green-bg);border-color:var(--v-green)"><div class="asma-num">01</div><div class="asma-arab">ٱللَّٰه</div><div class="asma-latin">Allah</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">02</div><div class="asma-arab">ٱلرَّحْمَٰن</div><div class="asma-latin">Ar-Rahman</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">03</div><div class="asma-arab">ٱلرَّحِيم</div><div class="asma-latin">Ar-Rahim</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">04</div><div class="asma-arab">ٱلْمَلِك</div><div class="asma-latin">Al-Malik</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">05</div><div class="asma-arab">ٱلْقُدُّوس</div><div class="asma-latin">Al-Quddus</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">06</div><div class="asma-arab">ٱلسَّلَام</div><div class="asma-latin">As-Salam</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">07</div><div class="asma-arab">ٱلْمُؤْمِن</div><div class="asma-latin">Al-Mu'min</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">08</div><div class="asma-arab">ٱلْمُهَيْمِن</div><div class="asma-latin">Al-Muhaimin</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">09</div><div class="asma-arab">ٱلْعَزِيز</div><div class="asma-latin">Al-Aziz</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">10</div><div class="asma-arab">ٱلْجَبَّار</div><div class="asma-latin">Al-Jabbar</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">11</div><div class="asma-arab">ٱلْخَالِق</div><div class="asma-latin">Al-Khaliq</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">12</div><div class="asma-arab">ٱلْبَارِئ</div><div class="asma-latin">Al-Bari'</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">13</div><div class="asma-arab">ٱلْمُصَوِّر</div><div class="asma-latin">Al-Mushawwir</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">14</div><div class="asma-arab">ٱلْغَفَّار</div><div class="asma-latin">Al-Ghaffar</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">15</div><div class="asma-arab">ٱلْقَهَّار</div><div class="asma-latin">Al-Qahhar</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">16</div><div class="asma-arab">ٱلْوَهَّاب</div><div class="asma-latin">Al-Wahhab</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">17</div><div class="asma-arab">ٱلرَّزَّاق</div><div class="asma-latin">Ar-Razzaq</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">18</div><div class="asma-arab">ٱلْفَتَّاح</div><div class="asma-latin">Al-Fattah</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">19</div><div class="asma-arab">ٱلْعَلِيم</div><div class="asma-latin">Al-'Alim</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">20</div><div class="asma-arab">ٱلْبَصِير</div><div class="asma-latin">Al-Basir</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">21</div><div class="asma-arab">ٱلْعَظِيم</div><div class="asma-latin">Al-'Azim</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">22</div><div class="asma-arab">ٱلْحَكِيم</div><div class="asma-latin">Al-Hakim</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">23</div><div class="asma-arab">ٱلْوَلِيّ</div><div class="asma-latin">Al-Wali</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">24</div><div class="asma-arab">ٱلْحَمِيد</div><div class="asma-latin">Al-Hamid</div></div>
+            <div class="asma-card" onclick="document.querySelector('.asma-modal-overlay').classList.add('show')"><div class="asma-num">25</div><div class="asma-arab">ٱلْمُحْصِي</div><div class="asma-latin">Al-Muhshi</div></div>
+          </div>
+        </div>
+        <div class="asma-modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+          <div class="asma-modal">
+            <div class="modal-handle"></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <div style="width:30px;height:30px;border-radius:50%;background:var(--v-green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#1a4a22;flex-shrink:0">02</div>
+              <div>
+                <div class="modal-latin" style="text-align:left;font-size:15px">Ar-Rahman</div>
+                <div class="modal-meaning" style="text-align:left">Yang Maha Pengasih</div>
+              </div>
+              <div class="modal-arab" style="font-size:28px;margin-left:auto">ٱلرَّحْمَٰن</div>
+            </div>
+            <div class="modal-desc">Allah Yang Maha Pengasih kepada seluruh makhluk-Nya di dunia, tanpa terkecuali, baik yang beriman maupun tidak. Kasih sayang-Nya meliputi segala sesuatu dan menjadi sebab turunnya rezeki bagi seluruh alam.</div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Asmaul Husna</div>
+  </div>
+
+  <!-- SCREEN 4: Surat Pilihan -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="surat-header">
+            <div class="surat-title">Surat Pilihan</div>
+          </div>
+          <div class="surat-list">
+            <div class="surat-item">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Al Mulk</div>
+                <div class="surat-desc">Ayat 30 • Pelindung dari azab kubur</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+            <div class="surat-item" style="background:var(--v-green-bg);border-color:var(--v-green)">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Ar Rahman</div>
+                <div class="surat-desc">Ayat 78 • Nama-nama baik Allah</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+            <div class="surat-item">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Al Waqiah</div>
+                <div class="surat-desc">Ayat 96 • Hari yang terjadi</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+            <div class="surat-item">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Yasin</div>
+                <div class="surat-desc">Ayat 83 • Qalbi qsad</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+            <div class="surat-item">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Al Kahfi</div>
+                <div class="surat-desc">Ayat 110 • Pengclerotic</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+            <div class="surat-item">
+              <div class="surat-icon">🫅</div>
+              <div class="surat-info">
+                <div class="surat-name">Surat Al Fatihah</div>
+                <div class="surat-desc">Ayat 7 • Pembuka Al Quran</div>
+              </div>
+              <div class="surat-badge">Murojaah</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Surat Pilihan</div>
+  </div>
+
+  <!-- SCREEN 5: Kitab Pilihan -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="kitab-header">
+            <div class="kitab-title">Kitab Pilihan</div>
+          </div>
+          <div class="kitab-list">
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Arbain Nawawi</div>
+                <div class="kitab-desc">40 Hadits tentang berbagai hukum</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Riyadus Sholihin</div>
+                <div class="kitab-desc">Kitab an-Nawawi tentang adab</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Mishkatul Masabih</div>
+                <div class="kitab-desc">Kumpulan hadits shahih</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Al-Muharrar</div>
+                <div class="kitab-desc">Tafsir ringkas Al-Quran</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Mukhtasarul Hikayat</div>
+                <div class="kitab-desc">Kisah-kisah Isra' Mi'raj</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+            <div class="kitab-item">
+              <div class="kitab-icon">📖</div>
+              <div class="kitab-info">
+                <div class="kitab-name">Al-Mawaris</div>
+                <div class="kitab-desc">Kitab hukum waris</div>
+              </div>
+              <div class="kitab-badge">Murojaah</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Kitab Pilihan</div>
+  </div>
+
+  <!-- SCREEN 6: Kalender -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="kalender-header">
+            <div class="kalender-back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6560" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></div>
+            <div class="kalender-month-nav">April 2026</div>
+            <div class="kalender-nav"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4A7C59" stroke-width="2"><path d="M9 18l6-6 6 6"/></svg></div>
+          </div>
+          <div class="kalender-body">
+            <div class="kalender-day-names">
+              <div class="kalender-day-name">Min</div>
+              <div class="kalender-day-name">Sen</div>
+              <div class="kalender-day-name">Sel</div>
+              <div class="kalender-day-name">Rab</div>
+              <div class="kalender-day-name">Kam</div>
+              <div class="kalender-day-name">Jum</div>
+              <div class="kalender-day-name">Sab</div>
+            </div>
+            <div class="kalender-grid">
+              <div class="kalender-day other-month">30</div>
+              <div class="kalender-day other-month">31</div>
+              <div class="kalender-day">1</div>
+              <div class="kalender-day">2</div>
+              <div class="kalender-day">3</div>
+              <div class="kalender-day">4</div>
+              <div class="kalender-day has-event">5</div>
+              <div class="kalender-day">6</div>
+              <div class="kalender-day">7</div>
+              <div class="kalender-day">8</div>
+              <div class="kalender-day">9</div>
+              <div class="kalender-day">10</div>
+              <div class="kalender-day">11</div>
+              <div class="kalender-day has-event">12</div>
+              <div class="kalender-day">13</div>
+              <div class="kalender-day">14</div>
+              <div class="kalender-day">15</div>
+              <div class="kalender-day">16</div>
+              <div class="kalender-day">17</div>
+              <div class="kalender-day">18</div>
+              <div class="kalender-day has-event">19</div>
+              <div class="kalender-day">20</div>
+              <div class="kalender-day">21</div>
+              <div class="kalender-day">22</div>
+              <div class="kalender-day">23</div>
+              <div class="kalender-day">24</div>
+              <div class="kalender-day">25</div>
+              <div class="kalender-day has-event">26</div>
+              <div class="kalender-day">27</div>
+              <div class="kalender-day">28</div>
+              <div class="kalender-day">29</div>
+              <div class="kalender-day">30</div>
+              <div class="kalender-day other-month">1</div>
+              <div class="kalender-day other-month">2</div>
+              <div class="kalender-day other-month">3</div>
+            </div>
+            <div class="kalender-events">
+              <div class="kalender-section-title">5 April · Ahad</div>
+              <div class="kalender-event">
+                <div class="ke-icon">🕌</div>
+                <div class="ke-info">
+                  <div class="ke-name">Pengajian RT 05</div>
+                  <div class="ke-time">Ba'da Isya · Masjid Al-Hidayah</div>
+                </div>
+                <div class="ke-badge ke-badge-minggu">Umum</div>
+              </div>
+              <div class="kalender-section-title">12 April · Ahad</div>
+              <div class="kalender-event">
+                <div class="ke-icon">🕌</div>
+                <div class="ke-info">
+                  <div class="ke-name">Tahlilan Jasro</div>
+                  <div class="ke-time">Pukul 10.00 · Masjid Al-Hidayah</div>
+                </div>
+                <div class="ke-badge ke-badge-minggu">Umum</div>
+              </div>
+              <div class="kalender-section-title">19 April · Ahad</div>
+              <div class="kalender-event">
+                <div class="ke-icon">🕌</div>
+                <div class="ke-info">
+                  <div class="ke-name">Pengajian Akbar</div>
+                  <div class="ke-time">Ba'da Isya · Masjid Al-Hidayah</div>
+                </div>
+                <div class="ke-badge ke-badge-minggu">Umum</div>
+              </div>
+              <div class="kalender-section-title">26 April · Ahad</div>
+              <div class="kalender-event">
+                <div class="ke-icon">🕌</div>
+                <div class="ke-info">
+                  <div class="ke-name">Tahlilan Kenaikan</div>
+                  <div class="ke-time">Pukul 10.00 · Masjid Al-Hidayah</div>
+                </div>
+                <div class="ke-badge ke-badge-minggu">Umum</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Kalender</div>
+  </div>
+
+  <!-- SCREEN 6: Arisan -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen" style="position:relative;">
+        <div class="screen-content">
+          <div class="arisan-header">
+            <div>
+              <div class="arisan-title">Manage Arisan</div>
+              <div style="font-size:10px;color:var(--v-muted);margin-top:2px">2 grup aktif</div>
+            </div>
+            <div class="add-btn">+</div>
+          </div>
+          <div class="arisan-body">
+            <div class="arisan-group">
+              <div class="ag-header">
+                <div><div class="ag-name">Arisan RT 05</div><div class="ag-round">Putaran ke-7 dari 12</div></div>
+                <div class="ag-amount">Rp 150.000</div>
+              </div>
+              <div class="ag-members">
+                <div class="member-avatar">BU</div><div class="member-avatar">SR</div><div class="member-avatar">AN</div><div class="member-avatar">WT</div><div class="member-more">+8</div>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;margin-bottom:8px"><span style="font-size:9px;color:var(--v-muted)">7 sudah bayar</span><span style="font-size:9px;color:var(--v-muted)">5 belum</span></div>
+              <div class="kocok-btn"><div class="kocok-icon"></div>Kocok Arisan</div>
+            </div>
+            <div class="arisan-group" style="opacity:0.7">
+              <div class="ag-header">
+                <div><div class="ag-name">Arisan Ibu PKK</div><div class="ag-round">Putaran ke-3 dari 20</div></div>
+                <div class="ag-amount">Rp 50.000</div>
+              </div>
+              <div class="ag-members">
+                <div class="member-avatar">SW</div><div class="member-avatar">RM</div><div class="member-avatar">DK</div><div class="member-more">+17</div>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;margin-bottom:8px"><span style="font-size:9px;color:var(--v-muted)">3 sudah bayar</span><span style="font-size:9px;color:var(--v-muted)">17 belum</span></div>
+              <div class="kocok-btn">Kocok Arisan</div>
+            </div>
+          </div>
+        </div>
+        <div class="winner-overlay">
+          <div class="winner-card">
+            <div class="winner-icon">🎉</div>
+            <div class="winner-label">Pemenang Arisan RT 05</div>
+            <div class="winner-name">Ibu Wati</div>
+            <div style="font-size:10px;color:var(--v-muted);margin-top:2px">Putaran ke-7 • Rp 1.800.000</div>
+            <div class="winner-close">Selesai</div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Manage Arisan</div>
+  </div>
+
+  <!-- SCREEN 5: Jamaah -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="arisan-header">
+            <div>
+              <div class="arisan-title">Manage Jamaah</div>
+              <div style="font-size:10px;color:var(--v-muted);margin-top:2px">24 anggota + 5 almarhum</div>
+            </div>
+            <div class="export-btn" title="Export CSV"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <div class="add-btn">+</div>
+          </div>
+          <div class="jamaah-body">
+            <div class="search-bar">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <div class="search-placeholder">Cari nama atau wilayah...</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-bottom:10px">
+              <div style="font-size:9px;padding:4px 10px;border-radius:20px;background:var(--v-green);color:#1a4a22;font-weight:600">Semua</div>
+              <div style="font-size:9px;padding:4px 10px;border-radius:20px;background:var(--v-card);border:1px solid var(--v-border);color:var(--v-muted)">Hadir</div>
+              <div style="font-size:9px;padding:4px 10px;border-radius:20px;background:var(--v-card);border:1px solid var(--v-border);color:var(--v-muted)">Wilayah</div>
+            </div>
+            <div class="jamaah-item">
+              <div class="j-avatar">BU</div>
+              <div class="j-info">
+                <div class="j-name">Bapak Usman</div>
+                <div class="j-detail">RT 05 · Ketua Jamaah</div>
+              </div>
+              <div class="j-actions">
+                <div class="attendance-badge att-hadir">Hadir</div>
+                <div class="j-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.484 2 12.017c0 1.99.525 3.859 1.438 5.475L2.002 22l4.617-1.41A9.953 9.953 0 0012 22c5.522 0 10-4.484 10-10.017C22 6.48 17.522 2 12 2z"/></svg></div>
+              </div>
+            </div>
+            <div class="jamaah-item">
+              <div class="j-avatar" style="background:#FEF3C7;color:#92400E">SR</div>
+              <div class="j-info">
+                <div class="j-name">Ibu Sari Rahayu</div>
+                <div class="j-detail">RT 06 · Anggota</div>
+              </div>
+              <div class="j-actions">
+                <div class="attendance-badge att-absent">Izin</div>
+                <div class="j-wa"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.484 2 12.017c0 1.99.525 3.859 1.438 5.475L2.002 22l4.617-1.41A9.953 9.953 0 0012 22c5.522 0 10-4.484 10-10.017C22 6.48 17.522 2 12 2z"/></svg></div>
+              </div>
+            </div>
+            <div class="jamaah-item">
+              <div class="j-avatar" style="background:#EDE9FE;color:#6D28D9">AN</div>
+              <div class="j-info">
+                <div class="j-name">Ahmad Nurdin</div>
+                <div class="j-detail">RT 05 · Anggota</div>
+              </div>
+              <div class="j-actions">
+                <div class="attendance-badge att-hadir">Hadir</div>
+                <div class="j-wa"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.484 2 12.017c0 1.99.525 3.859 1.438 5.475L2.002 22l4.617-1.41A9.953 9.953 0 0012 22c5.522 0 10-4.484 10-10.017C22 6.48 17.522 2 12 2z"/></svg></div>
+              </div>
+            </div>
+            <div class="jamaah-item" style="border-bottom:none">
+              <div class="j-avatar" style="background:#FCE7F3;color:#BE185D">WT</div>
+              <div class="j-info">
+                <div class="j-name">Wati Susanti</div>
+                <div class="j-detail">RT 07 · Bendahara</div>
+              </div>
+              <div class="j-actions">
+                <div class="attendance-badge att-hadir">Hadir</div>
+                <div class="j-wa"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.484 2 12.017c0 1.99.525 3.859 1.438 5.475L2.002 22l4.617-1.41A9.953 9.953 0 0012 22c5.522 0 10-4.484 10-10.017C22 6.48 17.522 2 12 2z"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Manage Jamaah</div>
+  </div>
+
+  <!-- SCREEN 7: Manage Almarhum -->
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone-frame">
+      <div class="notch"></div>
+      <div class="phone-screen">
+        <div class="screen-content">
+          <div class="almarhum-header">
+            <div class="almarhum-back"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6560" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></div>
+            <div class="almarhum-title">Manage Almarhum</div>
+            <div class="add-btn">+</div>
+          </div>
+          <div class="almarhum-body">
+            <div class="almarhum-detail">
+              <div class="almarhum-avatar">👤</div>
+              <div class="almarhum-info">
+                <div class="almarhum-name">Bapak H. Ahmad Wijaya</div>
+                <div class="almarhum-born">Jl. Peta No. 45, Purbalingga</div>
+                <div class="almarhum-wafat">No. HP: 0812-3456-7890</div>
+                <div class="almarhum-age">Status: Jamaah Aktif</div>
+              </div>
+            </div>
+            <div class="almarhum-section">Bapak</div>
+            <div class="almarhum-list">
+              <div class="almarhum-item">
+                <div class="alm-icon">A</div>
+                <div class="alm-info">
+                  <div class="alm-name">H. Ahmad Wijaya</div>
+                  <div class="alm-rel">Bin H. Salim</div>
+                </div>
+                <div class="alm-date">10 Mar 2024</div>
+              </div>
+              <div class="almarhum-item">
+                <div class="alm-icon" style="background:#6B7280">B</div>
+                <div class="alm-info">
+                  <div class="alm-name">H. Budi Santoso</div>
+                  <div class="alm-rel">Bin H. Suparman</div>
+                </div>
+                <div class="alm-date">22 Jan 2024</div>
+              </div>
+              <div class="almarhum-item">
+                <div class="alm-icon" style="background:#6B7280">C</div>
+                <div class="alm-info">
+                  <div class="alm-name">H. Cokro Aminoto</div>
+                  <div class="alm-rel">Bin M.joyo</div>
+                </div>
+                <div class="alm-date">05 Des 2023</div>
+              </div>
+            </div>
+            <div class="almarhum-section">Ibu</div>
+            <div class="almarhum-list">
+              <div class="almarhum-item">
+                <div class="alm-icon" style="background:#BE185D">S</div>
+                <div class="alm-info">
+                  <div class="alm-name">Hj. Siti Rahayu</div>
+                  <div class="alm-rel">Binti H. Mahmud</div>
+                </div>
+                <div class="alm-date">18 Feb 2024</div>
+              </div>
+              <div class="almarhum-item">
+                <div class="alm-icon" style="background:#BE185D">M</div>
+                <div class="alm-info">
+                  <div class="alm-name">Hj. Mariyam</div>
+                  <div class="alm-rel">Binti H. Basri</div>
+                </div>
+                <div class="alm-date">30 Nov 2023</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav" style="z-index:30">
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="nav-label">Home</div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div><div class="nav-label">Ibadah</div></div>
+          <div class="nav-item active"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="nav-label">Arisan</div><div class="nav-dot"></div></div>
+          <div class="nav-item"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="nav-label">Jamaah</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">Manage Almarhum</div>
+  </div>
+
+</div>
