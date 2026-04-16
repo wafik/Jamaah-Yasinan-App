@@ -128,6 +128,7 @@ class ArisanParticipant {
       'id': id,
       'arisan_id': arisanId,
       'member_id': memberId,
+      'member_name': memberName,
       'has_paid': hasPaid ? 1 : 0,
       'won_round': wonRound,
       'paid_at': paidAt?.toIso8601String(),

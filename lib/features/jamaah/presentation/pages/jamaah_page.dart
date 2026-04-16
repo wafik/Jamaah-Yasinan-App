@@ -17,28 +17,19 @@ class JamaahPage extends StatefulWidget {
 }
 
 class _JamaahPageState extends State<JamaahPage> {
-  String selectedFilter = 'Semua';
   final TextEditingController _searchController = TextEditingController();
   List<JamaahMember> _members = <JamaahMember>[];
+  int _almarhumCount = 0;
   bool _loading = true;
 
   List<JamaahMember> get filteredMembers {
     final query = _searchController.text.trim().toLowerCase();
 
     return _members.where((JamaahMember item) {
-      final filterMatch = switch (selectedFilter) {
-        'Hadir' => item.isPresent,
-        'Wilayah' => item.neighborhood.toLowerCase().contains('rt 05'),
-        _ => true,
-      };
-
-      final queryMatch =
-          query.isEmpty ||
-          item.name.toLowerCase().contains(query) ||
+      if (query.isEmpty) return true;
+      return item.name.toLowerCase().contains(query) ||
           item.neighborhood.toLowerCase().contains(query) ||
           item.role.toLowerCase().contains(query);
-
-      return filterMatch && queryMatch;
     }).toList();
   }
 
@@ -74,7 +65,7 @@ class _JamaahPageState extends State<JamaahPage> {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    '${_members.length} anggota + 5 almarhum',
+                    '${_members.length} anggota + $_almarhumCount almarhum',
                     style: const TextStyle(
                       fontSize: 10,
                       color: AppColors.textMuted,
@@ -127,28 +118,6 @@ class _JamaahPageState extends State<JamaahPage> {
                   ),
                 ),
         ),
-        const SizedBox(height: 10),
-        Row(
-          children: <Widget>[
-            _FilterChip(
-              label: 'Semua',
-              active: selectedFilter == 'Semua',
-              onTap: () => _setFilter('Semua'),
-            ),
-            const SizedBox(width: 6),
-            _FilterChip(
-              label: 'Hadir',
-              active: selectedFilter == 'Hadir',
-              onTap: () => _setFilter('Hadir'),
-            ),
-            const SizedBox(width: 6),
-            _FilterChip(
-              label: 'Wilayah',
-              active: selectedFilter == 'Wilayah',
-              onTap: () => _setFilter('Wilayah'),
-            ),
-          ],
-        ),
         const SizedBox(height: 8),
         if (_loading)
           const Padding(
@@ -190,7 +159,7 @@ class _JamaahPageState extends State<JamaahPage> {
             duration: const Duration(milliseconds: 220),
             child: Column(
               key: ValueKey<String>(
-                '${selectedFilter}_${_searchController.text}_${filteredMembers.length}',
+                '${_searchController.text}_${filteredMembers.length}',
               ),
               children: filteredMembers.map(_buildMemberItem).toList(),
             ),
@@ -212,17 +181,13 @@ class _JamaahPageState extends State<JamaahPage> {
           children: <Widget>[
             CircleAvatar(
               radius: 20,
-              backgroundColor: item.isPresent
-                  ? AppColors.primaryBg
-                  : AppColors.warningLight,
+              backgroundColor: AppColors.primaryBg,
               child: Text(
                 item.initials,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: item.isPresent
-                      ? AppColors.primary
-                      : const Color(0xFF92400E),
+                  color: AppColors.primary,
                 ),
               ),
             ),
@@ -249,25 +214,6 @@ class _JamaahPageState extends State<JamaahPage> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: item.isPresent
-                    ? AppColors.primaryBg
-                    : AppColors.warningLight,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                item.status,
-                style: TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
-                  color: item.isPresent
-                      ? AppColors.primary
-                      : const Color(0xFF92400E),
-                ),
-              ),
-            ),
             const SizedBox(width: 8),
             const CircleAvatar(
               radius: 16,
@@ -286,10 +232,12 @@ class _JamaahPageState extends State<JamaahPage> {
     });
 
     final members = await JamaahLocalDatabase.instance.getAllMembers();
+    final almarhumCount = await JamaahLocalDatabase.instance.getAlmarhumCount();
 
     if (!mounted) return;
     setState(() {
       _members = members;
+      _almarhumCount = almarhumCount;
       _loading = false;
     });
   }
@@ -310,50 +258,7 @@ class _JamaahPageState extends State<JamaahPage> {
     await _loadMembers();
   }
 
-  void _setFilter(String value) {
-    setState(() {
-      selectedFilter = value;
-    });
-  }
-
   void _handleSearchChanged() {
     if (mounted) setState(() {});
-  }
-}
-
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: active ? AppColors.primaryBg : AppColors.card,
-          borderRadius: BorderRadius.circular(20),
-          border: active ? null : Border.all(color: AppColors.border),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 9,
-            fontWeight: FontWeight.w600,
-            color: active ? AppColors.primary : AppColors.textMuted,
-          ),
-        ),
-      ),
-    );
   }
 }

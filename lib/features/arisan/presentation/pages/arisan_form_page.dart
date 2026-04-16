@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../../shared/widgets/inputs/search_dropdown.dart';
+import '../../../../shared/widgets/inputs/multi_select_dropdown.dart';
 import '../../../agenda/data/agenda.dart';
 import '../../../agenda/data/agenda_local_database.dart';
 import '../../../jamaah/data/jamaah_member.dart';
@@ -26,6 +27,7 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
   late final TextEditingController _descriptionController;
   Agenda? _selectedAgenda;
   List<Agenda> _agendas = [];
+  List<JamaahMember> _selectedMembers = [];
   bool _saving = false;
   bool _loadingAgendas = true;
 
@@ -46,6 +48,9 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
       text: arisan?.description ?? '',
     );
     _loadAgendas();
+    if (isEdit) {
+      _loadExistingParticipants();
+    }
   }
 
   Future<void> _loadAgendas() async {
@@ -60,6 +65,21 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
           orElse: () => null,
         );
       }
+    });
+  }
+
+  Future<void> _loadExistingParticipants() async {
+    if (widget.arisan?.id == null) return;
+    final participants = await ArisanLocalDatabase.instance.getParticipants(
+      widget.arisan!.id!,
+    );
+    if (!mounted) return;
+    final memberIds = participants.map((p) => p.memberId).toSet();
+    final selected = widget.members
+        .where((m) => m.id != null && memberIds.contains(m.id))
+        .toList();
+    setState(() {
+      _selectedMembers = selected;
     });
   }
 
@@ -103,6 +123,7 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
               controller: _amountController,
               hint: 'Contoh: 150000',
               keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: _validateAmount,
             ),
             const SizedBox(height: 12),
@@ -111,8 +132,47 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
               controller: _totalRoundsController,
               hint: 'Contoh: 12',
               keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: _validateRounds,
             ),
+            const SizedBox(height: 12),
+            _FieldLabel('Anggota'),
+            MultiSelectDropdown<JamaahMember>(
+              selectedItems: _selectedMembers,
+              items: widget.members,
+              hint: 'Pilih anggota arisan',
+              displayText: (m) => m.name,
+              itemLabel: (m) => '${m.name} (${m.neighborhood})',
+              onChanged: (selected) {
+                setState(() {
+                  _selectedMembers = selected;
+                });
+              },
+            ),
+            if (_selectedMembers.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: _selectedMembers.map((member) {
+                  return Chip(
+                    label: Text(
+                      member.name,
+                      style: const TextStyle(fontSize: 11),
+                    ),
+                    deleteIcon: const Icon(Icons.close, size: 14),
+                    onDeleted: () {
+                      setState(() {
+                        _selectedMembers.remove(member);
+                      });
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                  );
+                }).toList(),
+              ),
+            ],
             const SizedBox(height: 12),
             _FieldLabel('Agenda (Opsional)'),
             _loadingAgendas
@@ -125,17 +185,7 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
                       ),
                     ),
                   )
-                : SearchDropdown<Agenda>(
-                    value: _selectedAgenda,
-                    items: _agendas,
-                    hint: 'Pilih agenda terkait',
-                    displayText: (a) => '${a.title} - ${a.dateFormatted}',
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedAgenda = value;
-                      });
-                    },
-                  ),
+                : _buildAgendaDropdown(),
             const SizedBox(height: 12),
             _FieldLabel('Deskripsi (Opsional)'),
             _AppTextField(
@@ -167,6 +217,46 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
     );
   }
 
+  Widget _buildAgendaDropdown() {
+    final agendaItems = [null, ..._agendas];
+    return DropdownButtonFormField<Agenda?>(
+      value: _selectedAgenda,
+      decoration: InputDecoration(
+        hintText: 'Pilih agenda terkait',
+        filled: true,
+        fillColor: AppColors.surface,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppColors.radiusMd),
+          borderSide: const BorderSide(color: AppColors.borderLight),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppColors.radiusMd),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
+      ),
+      items: [
+        const DropdownMenuItem<Agenda?>(
+          value: null,
+          child: Text('Tidak ada', style: TextStyle(fontSize: 12)),
+        ),
+        ...agendaItems.whereType<Agenda>().map(
+          (a) => DropdownMenuItem<Agenda?>(
+            value: a,
+            child: Text(
+              '${a.title} - ${a.dateFormatted}',
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+        ),
+      ],
+      onChanged: (value) {
+        setState(() {
+          _selectedAgenda = value;
+        });
+      },
+    );
+  }
+
   String? _requiredValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Wajib diisi';
@@ -182,6 +272,12 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
     if (amount == null || amount <= 0) {
       return 'Masukkan jumlah yang valid';
     }
+    if (amount < 1000) {
+      return 'Minimal Rp 1.000';
+    }
+    if (amount > 100000000) {
+      return 'Maksimal Rp 100.000.000';
+    }
     return null;
   }
 
@@ -193,11 +289,36 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
     if (rounds == null || rounds <= 0) {
       return 'Masukkan jumlah putaran yang valid';
     }
+    if (rounds > 100) {
+      return 'Maksimal 100 putaran';
+    }
     return null;
   }
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
+
+    if (_selectedMembers.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Pilih minimal 1 anggota'),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+      return;
+    }
+
+    final amount = int.parse(_amountController.text.trim());
+    final totalRounds = int.parse(_totalRoundsController.text.trim());
+    if (amount * totalRounds > 1000000000) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Total iuran tidak boleh melebihi Rp 1.000.000.000'),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+      return;
+    }
 
     setState(() {
       _saving = true;
@@ -206,9 +327,9 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
     final arisan = Arisan(
       id: widget.arisan?.id,
       name: _nameController.text.trim(),
-      amount: int.parse(_amountController.text.trim()),
+      amount: amount,
       currentRound: widget.arisan?.currentRound ?? 0,
-      totalRounds: int.parse(_totalRoundsController.text.trim()),
+      totalRounds: totalRounds,
       agendaId: _selectedAgenda?.id,
       agendaTitle: _selectedAgenda?.title,
       description: _descriptionController.text.trim().isEmpty
@@ -217,16 +338,41 @@ class _ArisanFormPageState extends State<ArisanFormPage> {
       createdAt: widget.arisan?.createdAt ?? DateTime.now(),
     );
 
+    int arisanId;
     if (isEdit) {
       await ArisanLocalDatabase.instance.updateArisan(arisan);
+      arisanId = widget.arisan!.id!;
+      await _saveParticipants(arisanId);
       if (!mounted) return;
       Navigator.of(context).pop(arisan);
       return;
     }
 
-    final id = await ArisanLocalDatabase.instance.insertArisan(arisan);
+    arisanId = await ArisanLocalDatabase.instance.insertArisan(arisan);
+    await _saveParticipants(arisanId);
     if (!mounted) return;
-    Navigator.of(context).pop(arisan.copyWith(id: id));
+    Navigator.of(context).pop(arisan.copyWith(id: arisanId));
+  }
+
+  Future<void> _saveParticipants(int arisanId) async {
+    final existing = await ArisanLocalDatabase.instance.getParticipants(
+      arisanId,
+    );
+    for (final p in existing) {
+      await ArisanLocalDatabase.instance.removeParticipant(p.id!);
+    }
+    for (final member in _selectedMembers) {
+      if (member.id == null) continue;
+      await ArisanLocalDatabase.instance.addParticipant(
+        ArisanParticipant(
+          arisanId: arisanId,
+          memberId: member.id!,
+          memberName: member.name,
+          hasPaid: false,
+          wonRound: 0,
+        ),
+      );
+    }
   }
 
   Future<void> _confirmDelete() async {
@@ -288,6 +434,7 @@ class _AppTextField extends StatelessWidget {
     this.validator,
     this.maxLines = 1,
     this.keyboardType,
+    this.inputFormatters,
   });
 
   final TextEditingController controller;
@@ -295,6 +442,7 @@ class _AppTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final int maxLines;
   final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -302,6 +450,7 @@ class _AppTextField extends StatelessWidget {
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,

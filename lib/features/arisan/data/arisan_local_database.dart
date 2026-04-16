@@ -20,7 +20,7 @@ class ArisanLocalDatabase {
 
     return openDatabase(
       dbPath,
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE arisan (
@@ -49,6 +49,23 @@ class ArisanLocalDatabase {
         ''');
 
         await _seed(db);
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        if (oldVersion < 2) {
+          try {
+            final result = await db.rawQuery(
+              "PRAGMA table_info(arisan_participants)",
+            );
+            final hasColumn = result.any((col) => col['name'] == 'member_name');
+            if (!hasColumn) {
+              await db.execute(
+                'ALTER TABLE arisan_participants ADD COLUMN member_name TEXT NOT NULL DEFAULT ""',
+              );
+            }
+          } catch (e) {
+            // ignore errors
+          }
+        }
       },
     );
   }
@@ -192,5 +209,16 @@ class ArisanLocalDatabase {
       where: 'id = ?',
       whereArgs: <Object?>[arisanId],
     );
+  }
+
+  Future<List<ArisanParticipant>> getParticipantHistory(int memberId) async {
+    final db = await database;
+    final rows = await db.query(
+      'arisan_participants',
+      where: 'member_id = ?',
+      whereArgs: <Object?>[memberId],
+      orderBy: 'arisan_id DESC',
+    );
+    return rows.map(ArisanParticipant.fromMap).toList();
   }
 }

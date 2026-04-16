@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/mock_data.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/cards/ventri_card.dart';
+import '../../data/jamaah_local_database.dart';
+import '../../data/jamaah_member.dart';
 
 class AlmarhumPage extends StatefulWidget {
   const AlmarhumPage({super.key});
@@ -12,189 +13,217 @@ class AlmarhumPage extends StatefulWidget {
 }
 
 class _AlmarhumPageState extends State<AlmarhumPage> {
-  String selectedSection = 'Bapak';
+  String selectedSection = 'L';
+  List<Almarhum> _almarhumList = [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAlmarhum();
+  }
+
+  Future<void> _loadAlmarhum() async {
+    setState(() {
+      _loading = true;
+    });
+    final almarhum = await JamaahLocalDatabase.instance.getAlmarhumByGender(
+      selectedSection,
+    );
+    if (!mounted) return;
+    setState(() {
+      _almarhumList = almarhum;
+      _loading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final items = selectedSection == 'Bapak' ? almarhumBapak : almarhumIbu;
-    final color = selectedSection == 'Bapak'
+    final color = selectedSection == 'L'
         ? const Color(0xFF374151)
         : const Color(0xFFBE185D);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Almarhum'),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: CircleAvatar(
-              radius: 16,
-              backgroundColor: AppColors.secondary,
-              child: Icon(Icons.add, size: 18, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Manage Almarhum')),
       body: ListView(
         padding: const EdgeInsets.all(14),
         children: <Widget>[
-          VentriCard(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 56,
-                  height: 56,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryBg,
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  child: const Text('👤', style: TextStyle(fontSize: 24)),
-                ),
-                const SizedBox(width: 14),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Bapak H. Ahmad Wijaya',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Jl. Peta No. 45, Purbalingga',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        'No. HP: 0812-3456-7890',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.dangerLight,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          child: Text(
-                            'Status: Jamaah Aktif',
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.danger,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
           Row(
             children: <Widget>[
               _SectionChip(
                 label: 'Bapak',
-                active: selectedSection == 'Bapak',
-                onTap: () => setState(() => selectedSection = 'Bapak'),
+                active: selectedSection == 'L',
+                onTap: () {
+                  setState(() => selectedSection = 'L');
+                  _loadAlmarhum();
+                },
               ),
               const SizedBox(width: 8),
               _SectionChip(
                 label: 'Ibu',
-                active: selectedSection == 'Ibu',
-                onTap: () => setState(() => selectedSection = 'Ibu'),
+                active: selectedSection == 'P',
+                onTap: () {
+                  setState(() => selectedSection = 'P');
+                  _loadAlmarhum();
+                },
               ),
             ],
           ),
           const SizedBox(height: 10),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 220),
-            child: VentriCard(
-              key: ValueKey<String>(selectedSection),
+          if (_loading)
+            const Padding(
+              padding: EdgeInsets.all(24),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 2,
+                ),
+              ),
+            )
+          else if (_almarhumList.isEmpty)
+            VentriCard(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.person_off_rounded,
+                      size: 40,
+                      color: AppColors.textMuted,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      selectedSection == 'L'
+                          ? 'Belum ada almarhum Bapak'
+                          : 'Belum ada almarhum Ibu',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Tandai anggota sebagai almarhum dari detail Jamaah',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          else
+            VentriCard(
               child: Column(
-                children: items
-                    .map(
-                      (AlmarhumItem item) => Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          border: item == items.last
-                              ? null
-                              : const Border(
-                                  bottom: BorderSide(
-                                    color: AppColors.borderLight,
-                                  ),
-                                ),
+                children: _almarhumList.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final item = entry.value;
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      border: index == _almarhumList.length - 1
+                          ? null
+                          : const Border(
+                              bottom: BorderSide(color: AppColors.borderLight),
+                            ),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundColor: color,
+                          child: Text(
+                            item.initials,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                        child: Row(
-                          children: <Widget>[
-                            CircleAvatar(
-                              radius: 16,
-                              backgroundColor: color,
-                              child: Text(
-                                item.initials,
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                item.jamaahName,
                                 style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    item.name,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                              if (item.lineage != null)
+                                Text(
+                                  item.lineage!,
+                                  style: const TextStyle(
+                                    fontSize: 10,
+                                    color: AppColors.textMuted,
                                   ),
-                                  Text(
-                                    item.lineage,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      color: AppColors.textMuted,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
                             Text(
-                              item.date,
+                              item.deathDateFormatted,
                               style: const TextStyle(
                                 fontSize: 10,
                                 color: AppColors.textMuted,
                               ),
                             ),
+                            const SizedBox(height: 4),
+                            InkWell(
+                              onTap: () => _confirmDelete(item),
+                              child: const Icon(
+                                Icons.delete_outline,
+                                size: 18,
+                                color: AppColors.danger,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    )
-                    .toList(),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _confirmDelete(Almarhum almarhum) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppColors.radiusXl),
+        ),
+        title: const Text('Hapus Almarhum'),
+        content: Text('Hapus ${almarhum.jamaahName} dari data almarhum?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Batal'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Hapus'),
           ),
         ],
       ),
     );
+
+    if (confirmed == true && almarhum.id != null) {
+      await JamaahLocalDatabase.instance.deleteAlmarhum(almarhum.id!);
+      _loadAlmarhum();
+    }
   }
 }
 

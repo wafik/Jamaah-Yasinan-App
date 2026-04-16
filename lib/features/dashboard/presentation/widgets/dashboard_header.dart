@@ -95,7 +95,7 @@ class _DashboardHeaderState extends State<DashboardHeader> {
               ),
               SizedBox(width: 6),
               Text(
-                'Purbalingga, Jawa Tengah',
+                'Majenang, Cilacap, Jawa Tengah',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,

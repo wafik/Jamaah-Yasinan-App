@@ -1,7 +1,7 @@
 name: jamaah_yasinan
-description: "A new Flutter project."
+description: "Aplikasi Untuk Membantu Pengelolaan Jamaah Yasinan."
 publish_to: 'none'
-version: 0.1.0+1
+version: 0.1.2
 
 environment:
   sdk: ^3.11.0

@@ -20,7 +20,6 @@ class _JamaahFormPageState extends State<JamaahFormPage> {
   late final TextEditingController _addressController;
   late final TextEditingController _neighborhoodController;
   late final TextEditingController _roleController;
-  late bool _isPresent;
   bool _saving = false;
 
   bool get isEdit => widget.member != null;
@@ -36,7 +35,6 @@ class _JamaahFormPageState extends State<JamaahFormPage> {
       text: member?.neighborhood ?? '',
     );
     _roleController = TextEditingController(text: member?.role ?? '');
-    _isPresent = member?.isPresent ?? true;
   }
 
   @override
@@ -94,50 +92,6 @@ class _JamaahFormPageState extends State<JamaahFormPage> {
               hint: 'Contoh: Ketua Jamaah',
               validator: _requiredValidator,
             ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppColors.radiusMd),
-                border: Border.all(color: AppColors.borderLight),
-              ),
-              child: Row(
-                children: <Widget>[
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Status Kehadiran',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(height: 2),
-                        Text(
-                          'Tandai hadir atau izin',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Switch.adaptive(
-                    value: _isPresent,
-                    activeThumbColor: AppColors.primary,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _isPresent = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 20),
             FilledButton(
               style: FilledButton.styleFrom(
@@ -183,7 +137,6 @@ class _JamaahFormPageState extends State<JamaahFormPage> {
       address: _addressController.text.trim(),
       neighborhood: _neighborhoodController.text.trim(),
       role: _roleController.text.trim(),
-      isPresent: _isPresent,
       createdAt: widget.member?.createdAt ?? DateTime.now(),
     );
 

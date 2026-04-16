@@ -20,7 +20,7 @@ class JamaahLocalDatabase {
 
     return openDatabase(
       dbPath,
-      version: 1,
+      version: 3,
       onCreate: (Database db, int version) async {
         await db.execute('''
           CREATE TABLE jamaahs (
@@ -30,12 +30,68 @@ class JamaahLocalDatabase {
             address TEXT NOT NULL,
             neighborhood TEXT NOT NULL,
             role TEXT NOT NULL,
-            is_present INTEGER NOT NULL DEFAULT 1,
+            created_at TEXT NOT NULL
+          )
+        ''');
+
+        await db.execute('''
+          CREATE TABLE almarhum (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            Jamaah_id INTEGER NOT NULL,
+            Jamaah_name TEXT NOT NULL,
+            lineage TEXT,
+            death_date TEXT NOT NULL,
+            gender TEXT NOT NULL,
+            created_at TEXT NOT NULL
+          )
+        ''');
+
+        await db.execute('''
+          CREATE TABLE prayer_requests (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            Jamaah_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            relation TEXT,
+            is_deceased INTEGER NOT NULL DEFAULT 0,
             created_at TEXT NOT NULL
           )
         ''');
 
         await _seed(db);
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        if (oldVersion < 2) {
+          try {
+            await db.execute('ALTER TABLE jamaahs DROP COLUMN is_present');
+          } catch (_) {}
+          try {
+            await db.execute('''
+              CREATE TABLE almarhum (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Jamaah_id INTEGER NOT NULL,
+                Jamaah_name TEXT NOT NULL,
+                lineage TEXT,
+                death_date TEXT NOT NULL,
+                gender TEXT NOT NULL,
+                created_at TEXT NOT NULL
+              )
+            ''');
+          } catch (_) {}
+        }
+        if (oldVersion < 3) {
+          try {
+            await db.execute('''
+              CREATE TABLE prayer_requests (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Jamaah_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                relation TEXT,
+                is_deceased INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL
+              )
+            ''');
+          } catch (_) {}
+        }
       },
     );
   }
@@ -49,7 +105,6 @@ class JamaahLocalDatabase {
         address: 'Jl. Melati No. 12, Purbalingga',
         neighborhood: 'RT 05',
         role: 'Ketua Jamaah',
-        isPresent: true,
         createdAt: DateTime(2026, 4, 16),
       ),
       JamaahMember(
@@ -58,7 +113,6 @@ class JamaahLocalDatabase {
         address: 'Jl. Kenanga No. 3, Purbalingga',
         neighborhood: 'RT 06',
         role: 'Anggota',
-        isPresent: false,
         createdAt: DateTime(2026, 4, 16),
       ),
       JamaahMember(
@@ -67,7 +121,6 @@ class JamaahLocalDatabase {
         address: 'Perum Griya Asri Blok B2',
         neighborhood: 'RT 05',
         role: 'Anggota',
-        isPresent: true,
         createdAt: DateTime(2026, 4, 16),
       ),
       JamaahMember(
@@ -76,7 +129,6 @@ class JamaahLocalDatabase {
         address: 'Jl. Mawar No. 7, Purbalingga',
         neighborhood: 'RT 07',
         role: 'Bendahara',
-        isPresent: true,
         createdAt: DateTime(2026, 4, 16),
       ),
     ];
@@ -86,6 +138,37 @@ class JamaahLocalDatabase {
         'jamaahs',
         item.copyWith(createdAt: now).toMap()..remove('id'),
       );
+    }
+
+    final almarhumSeed = <Almarhum>[
+      Almarhum(
+        jamaahId: 5,
+        jamaahName: 'H. Ahmad Wijaya',
+        lineage: 'Bin H. Salim',
+        deathDate: DateTime(2024, 3, 10),
+        gender: 'L',
+        createdAt: now,
+      ),
+      Almarhum(
+        jamaahId: 6,
+        jamaahName: 'H. Budi Santoso',
+        lineage: 'Bin H. Suparman',
+        deathDate: DateTime(2024, 1, 22),
+        gender: 'L',
+        createdAt: now,
+      ),
+      Almarhum(
+        jamaahId: 7,
+        jamaahName: 'Hj. Siti Rahayu',
+        lineage: 'Binti H. Mahmud',
+        deathDate: DateTime(2024, 2, 18),
+        gender: 'P',
+        createdAt: now,
+      ),
+    ];
+
+    for (final item in almarhumSeed) {
+      await db.insert('almarhum', item.toMap()..remove('id'));
     }
   }
 
@@ -113,5 +196,63 @@ class JamaahLocalDatabase {
   Future<int> deleteMember(int id) async {
     final db = await database;
     return db.delete('jamaahs', where: 'id = ?', whereArgs: <Object?>[id]);
+  }
+
+  Future<List<Almarhum>> getAllAlmarhum() async {
+    final db = await database;
+    final rows = await db.query('almarhum', orderBy: 'death_date DESC');
+    return rows.map(Almarhum.fromMap).toList();
+  }
+
+  Future<List<Almarhum>> getAlmarhumByGender(String gender) async {
+    final db = await database;
+    final rows = await db.query(
+      'almarhum',
+      where: 'gender = ?',
+      whereArgs: <Object?>[gender],
+      orderBy: 'death_date DESC',
+    );
+    return rows.map(Almarhum.fromMap).toList();
+  }
+
+  Future<int> insertAlmarhum(Almarhum almarhum) async {
+    final db = await database;
+    return db.insert('almarhum', almarhum.toMap()..remove('id'));
+  }
+
+  Future<int> deleteAlmarhum(int id) async {
+    final db = await database;
+    return db.delete('almarhum', where: 'id = ?', whereArgs: <Object?>[id]);
+  }
+
+  Future<int> getAlmarhumCount() async {
+    final db = await database;
+    final result = await db.rawQuery('SELECT COUNT(*) as count FROM almarhum');
+    return result.first['count'] as int? ?? 0;
+  }
+
+  Future<List<PrayerRequest>> getPrayerRequests(int jamaaId) async {
+    final db = await database;
+    final rows = await db.query(
+      'prayer_requests',
+      where: 'jamaah_id = ?',
+      whereArgs: <Object?>[jamaaId],
+      orderBy: 'name COLLATE NOCASE ASC',
+    );
+    return rows.map(PrayerRequest.fromMap).toList();
+  }
+
+  Future<int> insertPrayerRequest(PrayerRequest request) async {
+    final db = await database;
+    return db.insert('prayer_requests', request.toMap()..remove('id'));
+  }
+
+  Future<int> deletePrayerRequest(int id) async {
+    final db = await database;
+    return db.delete(
+      'prayer_requests',
+      where: 'id = ?',
+      whereArgs: <Object?>[id],
+    );
   }
 }
