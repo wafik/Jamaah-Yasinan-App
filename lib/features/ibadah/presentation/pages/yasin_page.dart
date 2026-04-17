@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/buttons/circle_icon_button.dart';
 import '../../data/ibadah_asset_models.dart';
 import '../../data/ibadah_asset_repository.dart';
+import '../widgets/auto_scroll_button.dart';
 
-class YasinPage extends StatelessWidget {
+class YasinPage extends StatefulWidget {
   const YasinPage({
     super.key,
     this.title = 'Surat Yasin',
@@ -14,6 +17,42 @@ class YasinPage extends StatelessWidget {
 
   final String title;
   final String assetPath;
+
+  @override
+  State<YasinPage> createState() => _YasinPageState();
+}
+
+class _YasinPageState extends State<YasinPage> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isScrolling = false;
+  Timer? _timer;
+
+  void _toggleScrolling() {
+    if (_isScrolling) {
+      _timer?.cancel();
+      setState(() => _isScrolling = false);
+    } else {
+      setState(() => _isScrolling = true);
+      _timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
+        if (!_scrollController.hasClients) return;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.offset;
+        if (currentScroll >= maxScroll) {
+          _timer?.cancel();
+          setState(() => _isScrolling = false);
+          return;
+        }
+        _scrollController.jumpTo(currentScroll + 1.0);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +66,12 @@ class YasinPage extends StatelessWidget {
           ),
         ),
         leadingWidth: 56,
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: FutureBuilder<SurahAsset>(
-        future: IbadahAssetRepository.instance.loadSurahSource(assetPath),
+        future: IbadahAssetRepository.instance.loadSurahSource(
+          widget.assetPath,
+        ),
         builder: (BuildContext context, AsyncSnapshot<SurahAsset> snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(
@@ -53,6 +94,7 @@ class YasinPage extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: ListView.separated(
+                  controller: _scrollController,
                   padding: const EdgeInsets.all(16),
                   itemCount: surah.ayahs.length + 1,
                   separatorBuilder: (BuildContext context, int index) =>
@@ -157,60 +199,48 @@ class YasinPage extends StatelessWidget {
                   color: AppColors.surface,
                   border: Border(top: BorderSide(color: AppColors.borderLight)),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.play_arrow_rounded,
-                              size: 14,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              'Auto Scroll',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    AutoScrollButton(
+                      isActive: _isScrolling,
+                      onTap: _toggleScrolling,
                     ),
                     Row(
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'A',
                           style: TextStyle(
                             fontSize: 10,
                             color: AppColors.textMuted,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         SizedBox(
                           width: 48,
-                          child: LinearProgressIndicator(
-                            value: 0.6,
-                            minHeight: 3,
-                            color: AppColors.primary,
-                            backgroundColor: AppColors.border,
-                          ),
+                          child:
+                              _scrollController.hasClients &&
+                                  _scrollController.position.maxScrollExtent > 0
+                              ? LinearProgressIndicator(
+                                  value:
+                                      (_scrollController.offset /
+                                              _scrollController
+                                                  .position
+                                                  .maxScrollExtent)
+                                          .clamp(0.0, 1.0),
+                                  minHeight: 3,
+                                  color: AppColors.primary,
+                                  backgroundColor: AppColors.border,
+                                )
+                              : const LinearProgressIndicator(
+                                  value: 0,
+                                  minHeight: 3,
+                                  color: AppColors.primary,
+                                  backgroundColor: AppColors.border,
+                                ),
                         ),
-                        SizedBox(width: 8),
-                        Text(
+                        const SizedBox(width: 8),
+                        const Text(
                           'A',
                           style: TextStyle(
                             fontSize: 14,

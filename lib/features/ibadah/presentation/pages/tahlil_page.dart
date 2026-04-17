@@ -1,11 +1,50 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/mock_data.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/buttons/circle_icon_button.dart';
+import '../widgets/auto_scroll_button.dart';
 
-class TahlilPage extends StatelessWidget {
+class TahlilPage extends StatefulWidget {
   const TahlilPage({super.key});
+
+  @override
+  State<TahlilPage> createState() => _TahlilPageState();
+}
+
+class _TahlilPageState extends State<TahlilPage> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isScrolling = false;
+  Timer? _timer;
+
+  void _toggleScrolling() {
+    if (_isScrolling) {
+      _timer?.cancel();
+      setState(() => _isScrolling = false);
+    } else {
+      setState(() => _isScrolling = true);
+      _timer = Timer.periodic(const Duration(milliseconds: 50), (_) {
+        if (!_scrollController.hasClients) return;
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.offset;
+        if (currentScroll >= maxScroll) {
+          _timer?.cancel();
+          setState(() => _isScrolling = false);
+          return;
+        }
+        _scrollController.jumpTo(currentScroll + 1.0);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +64,7 @@ class TahlilPage extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: ListView.separated(
+              controller: _scrollController,
               padding: const EdgeInsets.all(16),
               itemCount: tahlilLines.length,
               separatorBuilder: (BuildContext context, int index) =>
@@ -94,33 +134,9 @@ class TahlilPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.graphic_eq_rounded,
-                        size: 14,
-                        color: Colors.white,
-                      ),
-                      SizedBox(width: 6),
-                      Text(
-                        'Panduan',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                AutoScrollButton(
+                  isActive: _isScrolling,
+                  onTap: _toggleScrolling,
                 ),
                 const Text(
                   'Mode Mock',
