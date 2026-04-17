@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../dzikir/presentation/pages/dzikir_counter_page.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/page_transitions.dart';
 import '../../../../shared/widgets/cards/ventri_card.dart';
@@ -250,6 +251,7 @@ class _DashboardPageState extends State<DashboardPage> {
     });
 
     final pages = <Widget>[
+      const DzikirCounterPage(),
       const YasinPage(),
       const TahlilPage(),
       const AsmaulHusnaPage(),

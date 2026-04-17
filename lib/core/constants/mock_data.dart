@@ -83,6 +83,7 @@ class DoaItem {
 }
 
 const List<QuickActionItem> quickActions = <QuickActionItem>[
+  QuickActionItem('Dzikir', Icons.touch_app_rounded),
   QuickActionItem('Surat Yasin', Icons.menu_book_rounded),
   QuickActionItem('Tahlil', Icons.schedule_rounded),
   QuickActionItem('Asmaul Husna', Icons.auto_awesome_rounded),
