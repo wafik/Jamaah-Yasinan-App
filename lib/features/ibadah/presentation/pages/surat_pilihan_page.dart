@@ -66,7 +66,7 @@ class SuratPilihanPage extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         final item = items[index];
                         final highlight =
-                            item.latinName.toLowerCase() == 'ar-rahman';
+                            item.latinName.toLowerCase() == 'al-mulk';
 
                         return VentriCard(
                           margin: const EdgeInsets.only(bottom: 10),

@@ -153,3 +153,62 @@ class AsmaAsset {
     );
   }
 }
+
+class TahlilItemAsset {
+  const TahlilItemAsset({
+    required this.arab,
+    required this.latin,
+    required this.terjemah,
+    required this.ulang,
+  });
+
+  final String arab;
+  final String latin;
+  final String terjemah;
+  final int ulang;
+}
+
+class TahlilSectionAsset {
+  const TahlilSectionAsset({required this.bagian, required this.data});
+
+  final String bagian;
+  final List<TahlilItemAsset> data;
+}
+
+class TahlilAsset {
+  const TahlilAsset({required this.judul, required this.konten});
+
+  final String judul;
+  final List<TahlilSectionAsset> konten;
+
+  List<TahlilItemAsset> get allItems {
+    return konten.expand((section) => section.data).toList();
+  }
+
+  factory TahlilAsset.fromMap(Map<String, dynamic> map) {
+    final kontenList = (map['konten'] as List<dynamic>? ?? <dynamic>[]).map((
+      dynamic section,
+    ) {
+      final sectionMap = section as Map<String, dynamic>;
+      final dataList = (sectionMap['data'] as List<dynamic>? ?? <dynamic>[])
+          .map(
+            (dynamic item) => TahlilItemAsset(
+              arab: item['arab'] as String? ?? '',
+              latin: item['latin'] as String? ?? '',
+              terjemah: item['terjemah'] as String? ?? '',
+              ulang: item['ulang'] as int? ?? 1,
+            ),
+          )
+          .toList();
+      return TahlilSectionAsset(
+        bagian: sectionMap['bagian'] as String? ?? '',
+        data: dataList,
+      );
+    }).toList();
+
+    return TahlilAsset(
+      judul: map['judul'] as String? ?? '',
+      konten: kontenList,
+    );
+  }
+}

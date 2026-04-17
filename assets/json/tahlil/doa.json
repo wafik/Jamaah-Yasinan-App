@@ -1,0 +1,30 @@
+{
+  "judul": "Doa Tahlil",
+  "deskripsi": "Doa permohonan ampunan dan penyampaian pahala bacaan untuk arwah",
+  "konten": [
+    {
+      "bagian": "Pembuka Doa (Muqaddimah)",
+      "arab": "أَعُوْذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيْمِ، بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ، الْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَ، حَمْدَ الشَّاكِرِيْنَ حَمْدَ النَّاعِمِيْنَ، حَمْدًا يُّوَافِي نِعَمَهُ وَيُكَافِئُ مَزِيْدَهُ، يَا رَبَّنَا لَكَ الْحَمْدُ كَمَا يَنْبَغِيْ لِجَلَالِ وَجْهِكَ وَعَظِيْمِ سُلْطَانِكَ، اللّٰهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَّعَلَى اٰلِ سَيِّدِنَا مُحِمَّدٍ",
+      "latin": "A‘ûdzubillâhi minasy-syaithâr-rajîm, bismillâhir-raḫmânir-raḫîm, al-ḫamdulillâhi rabbil-‘alamîn, ḫamdasy syâkirin, ḫamdan nâ‘imîn, ḫamdan yuwâfî ni‘amahu wa yukâfî’u mazîdah(u), yâ rabbanâ lakal-ḫamdu kamâ yanbaghî lijalâli wajhika wa ‘adhîmi sulthânika, allâhumma shalli ‘alâ sayyidinâ Muḫammadin wa ‘alâ âli sayyidinâ Muḫammadin.",
+      "terjemah": "Aku berlindung diri kepada Engkau dari setan yang di rajam. Dengan nama Allah yang Maha Pengasih lagi Maha Penyayang. Segala puji bagi Allah, Tuhan seru sekalian alam, sebagaimana orang-orang yang bersyukur dan orang yang memperoleh nikmat sama memuji... Ya Allah tambahkanlah kesejahteraan dan keselamatan kepada penghulu kami Nabi Muhammad dan kepada keluarganya."
+    },
+    {
+      "bagian": "Penyampaian Pahala (Taqabbal wa Aushil)",
+      "arab": "اَللّٰهُمَّ تَقَبَّلْ وَأَوْصِلْ ثَوَابَ مَا قَرَاْنَاهُ مِنَ الْقُرْآنِ الْعَظِيْمِ وَمَا هَلَّلْنَا وَمَا سَبَّحْنَا وَمَا اسْتَغْفَرْنَا وَمَا صَلَّيْنَا عَلَى سَيِّدِنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ هَدِيَّةً وَاصِلَةً وَرَحْمَةً نَازِلَةً وَبَرَكَةً شَامِلَةً إِلَى حَضَرَةِ حَبِيْبِنَا وَشَفِيْعِنَا وَقُرَّةِ أَعْيُنِنَا سَيِّدِنَا وَمَوْلَانَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ... (وإلى جميع الأنبياء والعلماء والأولياء والأهل القبور)",
+      "latin": "Allâhumma taqabbal wa aushil tsawâba mâ qara’nâhu minal-qur’anil-‘adhîmi wa mâ hallalnâ wamâ sabbaḫnâ wamâstaghfarnâ wamâ shallainâ ‘alâ sayyidinâ Muḫammadin shallallâhu ‘alaihi wa sallamâ hadiyyatan wâshilatan wa raḫmatan nâzilatan wa barakatan syâmilatan ilâ ḫadlrati ḫabîbinâ wa syafî‘nâ wa qurrati a‘yuninâ sayyidinâ wa maulana Muḫammadin shallallâhu ‘alaihi wa sallamâ...",
+      "terjemah": "Ya Allah, terimalah dan sampaikanlah pahala ayat-ayat Quranul ‘adhim yang telah kami baca, tahlil kami, tasbih dan istighfar kami... kepada Nabi Muhammad ﷺ, para Nabi, para wali, syuhada, ulama, terutama Syekh Abdul Qadir al-Jilani, kemudian kepada seluruh ahli kubur muslimin dan muslimat."
+    },
+    {
+      "bagian": "Doa Ampunan Ahli Kubur",
+      "arab": "اَللّٰهُمَّ اغْفِرْ لَهُمْ وَارْحَمْهُمْ وَعَافِهِمْ وَاعْفُ عَنْهُمْ، اَللّٰهُمَّ أَنْزِلِ الرَّحْمَةَ وَالْمَغْفِرَةَ عَلَى أَهْلِ الْقُبُوْرِ مِنْ أَهْلِ لَا إِلٰهَ إِلَّا اللهُ مُحَمَّدٌ رَّسُوْلُ اللهِ",
+      "latin": "Allâhummaghfirlahum warḫamhum wa ‘âfihim wa‘fu ‘anhum, allâhumma anzilir-raḫmata wal-maghfirata ‘alâ ahlil-qubûri min ahli lâ ilâha illallâhu muḫammadur-rasûlullahi",
+      "terjemah": "Ya Allah ampunilah mereka, kasihanilah mereka, dan maafkanlah mereka. Ya Allah turunkanlah rahmat, dan ampunan kepada ahlul kubur yang ahli mengucapkan 'Laa ilaaha illaallah, Muhammadur rasulullah'."
+    },
+    {
+      "bagian": "Penutup Doa (Sapujagat & Shalawat)",
+      "arab": "رَبَّنَا أَرِنَا الْحَقَّ حَقًّا وَّارْزُقْنَا اتِّبَاعَهُ، وَأَرِنَا الْبَاطِلَ بَاطِلًا وَّارْزُقْنَا اجْتِنَابَهُ، رَبَّنَا اٰتِنَا فِي الدُّنْيَا حَسَنَةً وَّفِي الْآخِرَةِ حَسَنَةً وَّقِنَا عَذَابَ النَّارِ، سُبْحَانَ رَبِّكَ رَبِّ الْعِزَّةِ عَمَّا يَصِفُوْنَ وَسَلَامٌ عَلَى الْمُرْسَلِيْنَ وَالْحَمْدُ لِلّٰهِ رَبِّ الْعَلَمِيْنَ، اَلْفَاتِحَة",
+      "latin": "Rabbanâ arinâl-ḫaqqa ḫaqqan warzuqnât-tibâ‘ah, wa arinâl-bâthila bâthilan warzuqnâj tinâbah. Rabbanâ âtinâ fid-dunyâ ḫasanatan wa fil-âkhirati ḫasanatan wa qinâ ‘adzaban-nâr. Subḫâna rabbika rabbil-‘izzati ‘ammâ yashifun, wa salamun ‘alal-mursalîn, wal-ḫamdulillâhi rabbil-‘âlamîn. Al-fâtiḫah..",
+      "terjemah": "Tuhan kami, tunjukkanlah kami kebenaran dengan jelas, jadikanlah kami pengikutnya... berikanlah kami kebaikan di dunia dan kebaikan di akhirat, dan jagalah kami dari siksa api neraka. Maha Suci Tuhanmu, Tuhan pemilik kemuliaan dari apa yang mereka sifatkan. Segala puji bagi Allah Tuhan semesta alam. Al-Fatihah."
+    }
+  ]
+}

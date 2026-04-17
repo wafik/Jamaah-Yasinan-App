@@ -107,4 +107,76 @@ class IbadahAssetRepository {
     _cache[assetPath] = items;
     return items;
   }
+
+  Future<TahlilAsset> loadTahlil() async {
+    const tawasulPath = 'assets/json/tahlil/tawasul.json';
+    const doaPath = 'assets/json/tahlil/doa.json';
+
+    final cached = _cache['tahlil'];
+    if (cached is TahlilAsset) return cached;
+
+    try {
+      final tawasulRaw = await rootBundle.loadString(tawasulPath);
+      final tawasulJson = jsonDecode(tawasulRaw) as Map<String, dynamic>;
+      var konten = (tawasulJson['konten'] as List<dynamic>? ?? <dynamic>[])
+          .map(
+            (dynamic section) => _parseSection(section as Map<String, dynamic>),
+          )
+          .toList();
+
+      try {
+        final doaRaw = await rootBundle.loadString(doaPath);
+        final doaJson = jsonDecode(doaRaw) as Map<String, dynamic>;
+        final doaKonten = (doaJson['konten'] as List<dynamic>? ?? <dynamic>[])
+            .map(
+              (dynamic section) =>
+                  _parseSection(section as Map<String, dynamic>),
+            )
+            .toList();
+        konten = [...konten, ...doaKonten];
+      } catch (_) {
+        // doa.json might be empty or not exist, continue without it
+      }
+
+      final tahlil = TahlilAsset(
+        judul: tawasulJson['judul'] as String? ?? '',
+        konten: konten,
+      );
+      _cache['tahlil'] = tahlil;
+      return tahlil;
+    } catch (e) {
+      throw Exception('Failed to load tahlil: $e');
+    }
+  }
+
+  TahlilSectionAsset _parseSection(Map<String, dynamic> sectionMap) {
+    if (sectionMap.containsKey('data')) {
+      final dataList = (sectionMap['data'] as List<dynamic>? ?? <dynamic>[])
+          .map(
+            (dynamic item) => TahlilItemAsset(
+              arab: item['arab'] as String? ?? '',
+              latin: item['latin'] as String? ?? '',
+              terjemah: item['terjemah'] as String? ?? '',
+              ulang: item['ulang'] as int? ?? 1,
+            ),
+          )
+          .toList();
+      return TahlilSectionAsset(
+        bagian: sectionMap['bagian'] as String? ?? '',
+        data: dataList,
+      );
+    } else {
+      return TahlilSectionAsset(
+        bagian: sectionMap['bagian'] as String? ?? '',
+        data: [
+          TahlilItemAsset(
+            arab: sectionMap['arab'] as String? ?? '',
+            latin: sectionMap['latin'] as String? ?? '',
+            terjemah: sectionMap['terjemah'] as String? ?? '',
+            ulang: 1,
+          ),
+        ],
+      );
+    }
+  }
 }
