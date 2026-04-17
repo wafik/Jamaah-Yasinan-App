@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/csv_export.dart';
 import '../../../../core/utils/page_transitions.dart';
 import '../../../../shared/widgets/inputs/search_bar_card.dart';
 import '../../data/jamaah_local_database.dart';
 import '../../data/jamaah_member.dart';
-import 'almarhum_page.dart';
 import 'jamaah_detail_page.dart';
 import 'jamaah_form_page.dart';
 
@@ -18,6 +21,7 @@ class JamaahPage extends StatefulWidget {
 
 class _JamaahPageState extends State<JamaahPage> {
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _csvController = TextEditingController();
   List<JamaahMember> _members = <JamaahMember>[];
   int _almarhumCount = 0;
   bool _loading = true;
@@ -74,15 +78,88 @@ class _JamaahPageState extends State<JamaahPage> {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () => Navigator.of(
-                context,
-              ).push(buildVentriRoute<void>(const AlmarhumPage())),
+            PopupMenuButton<String>(
               icon: const Icon(
                 Icons.download_rounded,
                 color: AppColors.primary,
               ),
-              tooltip: 'Export CSV',
+              tooltip: 'Export / Import',
+              onSelected: (value) {
+                if (value == 'export_jamaah') {
+                  _exportJamaah();
+                } else if (value == 'export_full') {
+                  _exportFull();
+                } else if (value == 'export_almarhum') {
+                  _exportAlmarhum();
+                } else if (value == 'import_jamaah') {
+                  _showImportDialog();
+                }
+              },
+              itemBuilder: (context) => [
+                const PopupMenuItem(
+                  value: 'export_jamaah',
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.upload_outlined,
+                        size: 20,
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Export Jamaah CSV', style: TextStyle(fontSize: 13)),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'export_full',
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.upload_outlined,
+                        size: 20,
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Export Lengkap CSV',
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'export_almarhum',
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.upload_outlined,
+                        size: 20,
+                        color: AppColors.secondary,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Export Almarhum CSV',
+                        style: TextStyle(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+                const PopupMenuDivider(),
+                const PopupMenuItem(
+                  value: 'import_jamaah',
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.download_outlined,
+                        size: 20,
+                        color: AppColors.warning,
+                      ),
+                      SizedBox(width: 8),
+                      Text('Import Jamaah CSV', style: TextStyle(fontSize: 13)),
+                    ],
+                  ),
+                ),
+              ],
             ),
             InkWell(
               borderRadius: BorderRadius.circular(20),
@@ -148,7 +225,7 @@ class _JamaahPageState extends State<JamaahPage> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Tambah anggota baru atau ubah filter pencarian.',
+                  'Tambah anggota baru atau ubah filter.',
                   style: TextStyle(fontSize: 11, color: AppColors.textMuted),
                 ),
               ],
@@ -227,13 +304,9 @@ class _JamaahPageState extends State<JamaahPage> {
   }
 
   Future<void> _loadMembers() async {
-    setState(() {
-      _loading = true;
-    });
-
+    setState(() => _loading = true);
     final members = await JamaahLocalDatabase.instance.getAllMembers();
     final almarhumCount = await JamaahLocalDatabase.instance.getAlmarhumCount();
-
     if (!mounted) return;
     setState(() {
       _members = members;
@@ -242,11 +315,130 @@ class _JamaahPageState extends State<JamaahPage> {
     });
   }
 
+  Future<void> _exportJamaah() async {
+    try {
+      final csv = await CsvExport.exportJamaah();
+      await _saveCsvFile('jamaah.csv', csv);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Export Jamaah berhasil')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.danger),
+      );
+    }
+  }
+
+  Future<void> _exportFull() async {
+    try {
+      final csv = await CsvExport.exportJamaahWithPrayerRequests();
+      await _saveCsvFile('jamaah_lengkap.csv', csv);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Export lengkap berhasil')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.danger),
+      );
+    }
+  }
+
+  Future<void> _exportAlmarhum() async {
+    try {
+      final csv = await CsvExport.exportAlmarhum();
+      await _saveCsvFile('almarhum.csv', csv);
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Export Almarhum berhasil')));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.danger),
+      );
+    }
+  }
+
+  Future<void> _showImportDialog() async {
+    _csvController.clear();
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Import Jamaah CSV'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Paste CSV content:',
+                style: TextStyle(fontSize: 12, color: AppColors.textMuted),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _csvController,
+                maxLines: 5,
+                decoration: const InputDecoration(
+                  hintText:
+                      'Nama,No. HP,Alamat,Wilayah,Peran\ncontoh: Ahmad,0812...,Jl. Merdeka,RT 01,Anggota',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Batal'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Import'),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true && _csvController.text.isNotEmpty) {
+      try {
+        final imported = await CsvExport.importJamaah(_csvController.text);
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Berhasil import $imported anggota')),
+        );
+        _loadMembers();
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: AppColors.danger,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _saveCsvFile(String filename, String content) async {
+    final directory = Directory('/storage/emulated/0/Download');
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+    final file = File('${directory.path}/$filename');
+    await file.writeAsString(content);
+    await Clipboard.setData(ClipboardData(text: file.path));
+  }
+
   Future<void> _openCreateForm() async {
     final result = await Navigator.of(context).push<JamaahMember>(
       buildVentriRoute<JamaahMember>(const JamaahFormPage()),
     );
-
     if (result == null) return;
     await _loadMembers();
   }
