@@ -9,6 +9,8 @@ on:
     branches:
       - main
       - master
+permissions:
+  contents: write   # 👈 THIS FIXES YOUR ERROR
 jobs:
   build:
     runs-on: ubuntu-latest
