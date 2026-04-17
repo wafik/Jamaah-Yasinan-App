@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../dzikir/presentation/pages/dzikir_counter_page.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -28,11 +31,35 @@ class _DashboardPageState extends State<DashboardPage> {
   int activeQuickAction = 2;
   List<Agenda> _upcomingAgendas = [];
   bool _loading = true;
+  Map<String, dynamic>? _randomDoa;
+  bool _loadingDoa = true;
 
   @override
   void initState() {
     super.initState();
     _loadAgendas();
+    _loadRandomDoa();
+  }
+
+  Future<void> _loadRandomDoa() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://api.myquran.com/v2/doa/acak'),
+      );
+      if (!mounted) return;
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          _randomDoa = data['data'];
+          _loadingDoa = false;
+        });
+      } else {
+        setState(() => _loadingDoa = false);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _loadingDoa = false);
+    }
   }
 
   Future<void> _loadAgendas() async {
@@ -52,6 +79,74 @@ class _DashboardPageState extends State<DashboardPage> {
       padding: EdgeInsets.zero,
       children: <Widget>[
         const DashboardHeader(),
+        const SizedBox(height: 14),
+        if (!_loadingDoa && _randomDoa != null) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Doa Harian',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.text,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() => _loadingDoa = true);
+                    _loadRandomDoa();
+                  },
+                  child: const Icon(
+                    Icons.refresh,
+                    size: 20,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+        if (!_loadingDoa && _randomDoa != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: VentriCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _randomDoa!['doa'] ?? '',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _randomDoa!['judul'] ?? '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _randomDoa!['artinya'] ?? '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         const SizedBox(height: 14),
         const SectionTitle(
           'Akses Cepat',
@@ -177,7 +272,7 @@ class _DashboardPageState extends State<DashboardPage> {
     }
 
     final weekdays = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-    final weekday = weekdays[agenda.date.weekday % 7];
+    weekdays[agenda.date.weekday % 7];
 
     return VentriCard(
       child: Row(
