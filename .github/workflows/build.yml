@@ -53,11 +53,17 @@ jobs:
       - name: Generate Changelog
         run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
 
+      - name: Generate tag
+        id: tag
+        run: echo "tag_name=release-$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
       - name: Release
         uses: softprops/action-gh-release@v3
-        if: github.ref_type == 'tag'
         with:
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          name: "Auto Release ${{ steps.tag.outputs.tag_name }}"
           body_path: ${{ github.workspace }}-CHANGELOG.txt
           files: |
             build/app/outputs/flutter-apk/app-release.apk
-          token: ${{ secrets.PAT_APP_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
